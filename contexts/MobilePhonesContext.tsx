@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
-import type { MobilePhone } from '@/types/mobile';
+import { createContext, useContext, useState, type ReactNode } from "react";
+import type { MobilePhone } from "@/types/mobile";
 
 interface MobilePhonesContextValue {
   mobilePhones: MobilePhone[];
@@ -30,19 +30,18 @@ export function MobilePhonesProvider({
   itemsPerPage,
 }: MobilePhonesProviderProps) {
   const [allPhones, setAllPhones] = useState<MobilePhone[]>(initialData);
+  const [prevInitialData, setPrevInitialData] = useState(initialData);
 
-  useEffect(() => {
-    setAllPhones((prevPhones) => {
-      const existingIds = new Set(prevPhones.map(phone => phone.id));
-      const newPhones = initialData.filter(phone => !existingIds.has(phone.id));
+  if (initialData !== prevInitialData) {
+    setPrevInitialData(initialData);
 
-      if (newPhones.length > 0) {
-        return [...prevPhones, ...newPhones];
-      }
+    const existingIds = new Set(allPhones.map((phone) => phone.id));
+    const newPhones = initialData.filter((phone) => !existingIds.has(phone.id));
 
-      return prevPhones;
-    });
-  }, [initialData]);
+    if (newPhones.length > 0) {
+      setAllPhones([...allPhones, ...newPhones]);
+    }
+  }
 
   const value: MobilePhonesContextValue = {
     mobilePhones: allPhones,
@@ -63,7 +62,7 @@ export function useMobilePhones(): MobilePhonesContextValue {
 
   if (context === undefined) {
     throw new Error(
-      'useMobilePhones must be used within a MobilePhonesProvider'
+      "useMobilePhones must be used within a MobilePhonesProvider"
     );
   }
 
