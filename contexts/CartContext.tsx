@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, useRef, type ReactNode } from 'react';
 import type { CartItem } from '@/types/mobile';
 
 interface CartContextValue {
@@ -21,27 +21,31 @@ interface CartProviderProps {
 }
 
 export function CartProvider({ children }: CartProviderProps) {
-  const [items, setItems] = useState<CartItem[]>([]);
-  const [isLoaded, setIsLoaded] = useState(false);
-
-  useEffect(() => {
+  const [items, setItems] = useState<CartItem[]>(() => {
+    if (typeof window === 'undefined') {
+      return [];
+    }
     const storedCart = localStorage.getItem(CART_STORAGE_KEY);
     if (storedCart) {
       try {
-        const parsed = JSON.parse(storedCart);
-        setItems(parsed);
+        return JSON.parse(storedCart);
       } catch (error) {
         console.error('Error loading cart from localStorage:', error);
+        return [];
       }
     }
-    setIsLoaded(true);
-  }, []);
+    return [];
+  });
+
+  const isInitialMount = useRef(true);
 
   useEffect(() => {
-    if (isLoaded) {
-      localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items));
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
     }
-  }, [items, isLoaded]);
+    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items));
+  }, [items]);
 
   const addItem = (item: CartItem) => {
     setItems((prevItems) => [...prevItems, item]);
