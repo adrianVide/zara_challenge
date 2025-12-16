@@ -1,8 +1,9 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useCart } from '@/contexts/CartContext';
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useCart } from "@/contexts/CartContext";
+import styles from "./page.module.css";
 
 export default function CartPage() {
   const router = useRouter();
@@ -10,102 +11,40 @@ export default function CartPage() {
 
   if (itemCount === 0) {
     return (
-      <div style={{ padding: '3rem 4rem', minHeight: '60vh' }}>
-        <h1
-          style={{
-            fontSize: '0.875rem',
-            fontWeight: 'normal',
-            textTransform: 'uppercase',
-            letterSpacing: '0.05em',
-            marginBottom: '3rem',
-          }}
-        >
-          CART (0)
-        </h1>
-        <p style={{ marginBottom: '2rem' }}>Your cart is empty</p>
+      <div className={styles.container}>
+        <h1 className={styles.title}>CART (0)</h1>
+        <p className={styles.emptyMessage}>Your cart is empty</p>
         <Link href="/">
-          <button
-            style={{
-              padding: '1rem 2rem',
-              backgroundColor: 'transparent',
-              border: '1px solid var(--foreground)',
-              fontSize: '0.75rem',
-              letterSpacing: '0.05em',
-              cursor: 'pointer',
-            }}
-          >
-            CONTINUE SHOPPING
-          </button>
+          <button className={styles.continueButton}>CONTINUE SHOPPING</button>
         </Link>
       </div>
     );
   }
 
   return (
-    <div style={{ padding: '3rem 4rem', minHeight: '60vh' }}>
-      <h1
-        style={{
-          fontSize: '0.875rem',
-          fontWeight: 'normal',
-          textTransform: 'uppercase',
-          letterSpacing: '0.05em',
-          marginBottom: '3rem',
-        }}
-      >
-        CART ({itemCount})
-      </h1>
+    <div className={styles.container}>
+      <h1 className={styles.title}>CART ({itemCount})</h1>
 
-      <div style={{ marginBottom: '4rem' }}>
+      <div className={styles.itemsList}>
         {items.map((item) => (
-          <div
-            key={item.id}
-            style={{
-              display: 'grid',
-              gridTemplateColumns: '150px 1fr',
-              gap: '2rem',
-              marginBottom: '3rem',
-              paddingBottom: '2rem',
-              borderBottom: '1px solid var(--border-color)',
-            }}
-          >
+          <div key={item.id} className={styles.item}>
             <img
               src={item.imageUrl}
               alt={`${item.brand} ${item.name}`}
-              style={{
-                width: '100%',
-                height: '150px',
-                objectFit: 'contain',
-              }}
+              className={styles.itemImage}
             />
 
-            <div>
-              <h3
-                style={{
-                  margin: '0 0 0.5rem 0',
-                  fontSize: '0.875rem',
-                  fontWeight: 'normal',
-                  textTransform: 'uppercase',
-                }}
-              >
+            <div className={styles.itemInfo}>
+              <h3 className={styles.itemName}>
                 {item.brand} {item.name}
               </h3>
-              <p style={{ margin: '0.25rem 0', fontSize: '0.875rem' }}>
+              <p className={styles.itemDetails}>
                 {item.storage} | {item.color}
               </p>
-              <p style={{ margin: '0.75rem 0 1rem 0', fontSize: '0.875rem' }}>
-                {item.price} EUR
-              </p>
+              <p className={styles.itemPrice}>{item.price} EUR</p>
               <button
                 onClick={() => removeItem(item.id)}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  color: 'var(--error-color)',
-                  fontSize: '0.75rem',
-                  cursor: 'pointer',
-                  padding: 0,
-                  textDecoration: 'underline',
-                }}
+                className={styles.removeButton}
               >
                 Eliminar
               </button>
@@ -114,49 +53,20 @@ export default function CartPage() {
         ))}
       </div>
 
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          paddingTop: '2rem',
-          borderTop: '2px solid var(--border-color)',
-        }}
-      >
+      <div className={styles.footer}>
         <Link href="/">
-          <button
-            style={{
-              padding: '1rem 2rem',
-              backgroundColor: 'transparent',
-              border: '1px solid var(--foreground)',
-              fontSize: '0.75rem',
-              letterSpacing: '0.05em',
-              cursor: 'pointer',
-            }}
-          >
-            CONTINUE SHOPPING
-          </button>
+          <button className={styles.continueButton}>CONTINUE SHOPPING</button>
         </Link>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '3rem' }}>
-          <div style={{ fontSize: '0.875rem' }}>
-            <span style={{ marginRight: '2rem' }}>TOTAL</span>
-            <span style={{ fontWeight: 'bold' }}>{totalPrice.toFixed(0)} EUR</span>
+        <div className={styles.totalSection}>
+          <div className={styles.totalLabel}>
+            <span>TOTAL</span>
+            <span className={styles.totalAmount}>
+              {totalPrice.toFixed(0)} EUR
+            </span>
           </div>
 
-          <button
-            style={{
-              padding: '1rem 3rem',
-              backgroundColor: 'var(--foreground)',
-              color: 'white',
-              border: 'none',
-              fontSize: '0.75rem',
-              letterSpacing: '0.05em',
-              cursor: 'pointer',
-            }}
-          >
-            PAY
-          </button>
+          <button className={styles.payButton}>PAY</button>
         </div>
       </div>
     </div>

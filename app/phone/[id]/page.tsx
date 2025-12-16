@@ -2,6 +2,7 @@ import { getMobilePhoneById } from "@/lib/api/mobile-api";
 import type { ProductDetail } from "@/types/mobile";
 import Link from "next/link";
 import { PhoneDetailClient } from "@/components/PhoneDetailClient";
+import styles from "./page.module.css";
 
 export const revalidate = 60;
 
@@ -17,30 +18,18 @@ export default async function PhoneDetail({ params }: PhoneDetailProps) {
   try {
     phone = await getMobilePhoneById(id);
   } catch (err) {
-    error = err instanceof Error ? err.message : "Failed to fetch phone details";
+    error =
+      err instanceof Error ? err.message : "Failed to fetch phone details";
     console.error("Error in PhoneDetail page:", err);
   }
 
   if (error || !phone) {
     return (
-      <div style={{ padding: "3rem 4rem" }}>
-        <div
-          style={{
-            color: "var(--error-color)",
-            padding: "2rem",
-            textAlign: "center",
-          }}
-        >
+      <div className={styles.container}>
+        <div className={styles.error}>
           <strong>Error:</strong> {error || "Phone not found"}
         </div>
-        <Link
-          href="/"
-          style={{
-            display: "inline-block",
-            marginTop: "1rem",
-            textDecoration: "underline",
-          }}
-        >
+        <Link href="/" className={styles.errorLink}>
           Go back to home
         </Link>
       </div>

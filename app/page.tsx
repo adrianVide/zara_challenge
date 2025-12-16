@@ -4,6 +4,7 @@ import { MobilePhonesProvider } from "@/contexts/MobilePhonesContext";
 import { MobilePhonesList } from "@/components/MobilePhonesList";
 import { Pagination } from "@/components/Pagination";
 import { SearchBar } from "@/components/SearchBar";
+import styles from './page.module.css';
 
 export const revalidate = 60;
 
@@ -88,7 +89,7 @@ export default async function Home({ searchParams }: HomeProps) {
       itemsPerPage={ITEMS_PER_PAGE}
       searchQuery={searchQuery}
     >
-      <div style={{ padding: "3rem 4rem" }}>
+      <div className={styles.container}>
         <SearchBar />
         <MobilePhonesList />
         <Pagination currentPage={currentPage} itemsPerPage={ITEMS_PER_PAGE} />

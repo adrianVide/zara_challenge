@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useCart } from '@/contexts/CartContext';
 import { ProductCard } from './ProductCard';
 import type { ProductDetail, CartItem } from '@/types/mobile';
+import styles from './PhoneDetailClient.module.css';
 
 interface PhoneDetailClientProps {
   phone: ProductDetail;
@@ -41,101 +42,41 @@ export function PhoneDetailClient({ phone }: PhoneDetailClientProps) {
   };
 
   return (
-    <div style={{ padding: '3rem 4rem' }}>
-      {/* Back Button */}
-      <button
-        onClick={() => router.back()}
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '0.5rem',
-          background: 'none',
-          border: 'none',
-          fontSize: '0.875rem',
-          marginBottom: '3rem',
-          cursor: 'pointer',
-        }}
-      >
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <div className={styles.container}>
+      <button onClick={() => router.back()} className={styles.backButton}>
+        <svg className={styles.backIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
           <path d="M19 12H5M12 19l-7-7 7-7" />
         </svg>
         BACK
       </button>
 
-      {/* Product Detail */}
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
-          gap: '4rem',
-          marginBottom: '5rem',
-        }}
-      >
-        {/* Left: Image */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div className={styles.productDetail}>
+        <div className={styles.imageContainer}>
           <img
             src={selectedColor?.imageUrl || phone.colorOptions[0]?.imageUrl}
             alt={`${phone.brand} ${phone.name}`}
-            style={{
-              width: '100%',
-              maxWidth: '400px',
-              height: 'auto',
-              objectFit: 'contain',
-            }}
+            className={styles.image}
           />
         </div>
 
-        {/* Right: Info */}
-        <div>
-          <h1
-            style={{
-              margin: '0 0 1rem 0',
-              fontSize: '1.25rem',
-              fontWeight: 'normal',
-              textTransform: 'uppercase',
-              letterSpacing: '0.05em',
-            }}
-          >
+        <div className={styles.productInfo}>
+          <h1 className={styles.title}>
             {phone.brand} {phone.name}
           </h1>
 
-          <p
-            style={{
-              fontSize: '1rem',
-              margin: '0 0 2rem 0',
-            }}
-          >
-            {currentPrice} EUR
-          </p>
+          <p className={styles.price}>{currentPrice} EUR</p>
 
-          {/* Storage Selector */}
           {phone.storageOptions && phone.storageOptions.length > 0 && (
-            <div style={{ marginBottom: '2rem' }}>
-              <div
-                style={{
-                  fontSize: '0.75rem',
-                  marginBottom: '1rem',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.05em',
-                }}
-              >
+            <div className={styles.selector}>
+              <div className={styles.selectorLabel}>
                 STORAGE ¿HOW MUCH SPACE DO YOU NEED?
               </div>
-              <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+              <div className={styles.storageOptions}>
                 {phone.storageOptions.map((storage, index) => (
                   <button
                     key={index}
                     onClick={() => setSelectedStorageIndex(index)}
-                    style={{
-                      padding: '0.75rem 1.5rem',
-                      border:
-                        selectedStorageIndex === index
-                          ? '2px solid var(--foreground)'
-                          : '1px solid var(--border-color)',
-                      backgroundColor: 'white',
-                      cursor: 'pointer',
-                      fontSize: '0.75rem',
-                    }}
+                    className={`${styles.storageButton} ${selectedStorageIndex === index ? styles.selected : ''}`}
                   >
                     {storage.capacity}
                   </button>
@@ -144,241 +85,103 @@ export function PhoneDetailClient({ phone }: PhoneDetailClientProps) {
             </div>
           )}
 
-          {/* Color Selector */}
           {phone.colorOptions && phone.colorOptions.length > 0 && (
-            <div style={{ marginBottom: '2rem' }}>
-              <div
-                style={{
-                  fontSize: '0.75rem',
-                  marginBottom: '1rem',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.05em',
-                }}
-              >
+            <div className={styles.selector}>
+              <div className={styles.selectorLabel}>
                 COLOR. PICK YOUR FAVOURITE.
               </div>
-              <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '0.5rem' }}>
+              <div className={styles.colorOptions}>
                 {phone.colorOptions.map((color, index) => (
                   <button
                     key={index}
                     onClick={() => setSelectedColorIndex(index)}
-                    style={{
-                      width: '32px',
-                      height: '32px',
-                      backgroundColor: color.hexCode,
-                      border:
-                        selectedColorIndex === index
-                          ? '2px solid var(--foreground)'
-                          : '1px solid var(--border-color)',
-                      cursor: 'pointer',
-                      padding: 0,
-                    }}
+                    className={`${styles.colorButton} ${selectedColorIndex === index ? styles.selected : ''}`}
+                    style={{ backgroundColor: color.hexCode }}
                     title={color.name}
                   />
                 ))}
               </div>
-              <div style={{ fontSize: '0.75rem', color: '#666' }}>
+              <div className={styles.colorName}>
                 {selectedColor?.name}
               </div>
             </div>
           )}
 
-          {/* Add to Cart Button */}
           <button
             onClick={handleAddToCart}
             disabled={!canAddToCart}
-            style={{
-              width: '100%',
-              padding: '1rem',
-              backgroundColor: canAddToCart ? 'var(--foreground)' : '#ccc',
-              color: 'white',
-              border: 'none',
-              fontSize: '0.875rem',
-              fontWeight: 'normal',
-              letterSpacing: '0.1em',
-              cursor: canAddToCart ? 'pointer' : 'not-allowed',
-            }}
+            className={styles.addButton}
           >
             AÑADIR
           </button>
         </div>
       </div>
 
-      {/* Specifications */}
       {phone.specs && (
-        <div style={{ marginBottom: '5rem' }}>
-          <h2
-            style={{
-              fontSize: '0.875rem',
-              marginBottom: '2rem',
-              textTransform: 'uppercase',
-              letterSpacing: '0.05em',
-              fontWeight: 'normal',
-            }}
-          >
-            SPECIFICATIONS
-          </h2>
-          <div style={{ borderTop: '1px solid var(--border-color)' }}>
+        <div className={styles.specifications}>
+          <h2 className={styles.specsTitle}>SPECIFICATIONS</h2>
+          <div className={styles.specsTable}>
             {phone.specs.brand && (
-              <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: '200px 1fr',
-                  gap: '2rem',
-                  padding: '1rem 0',
-                  borderBottom: '1px solid var(--border-color)',
-                  fontSize: '0.875rem',
-                }}
-              >
-                <div style={{ textTransform: 'uppercase', letterSpacing: '0.05em' }}>BRAND</div>
+              <div className={styles.specRow}>
+                <div className={styles.specLabel}>BRAND</div>
                 <div>{phone.brand}</div>
               </div>
             )}
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '200px 1fr',
-                gap: '2rem',
-                padding: '1rem 0',
-                borderBottom: '1px solid var(--border-color)',
-                fontSize: '0.875rem',
-              }}
-            >
-              <div style={{ textTransform: 'uppercase', letterSpacing: '0.05em' }}>NAME</div>
+            <div className={styles.specRow}>
+              <div className={styles.specLabel}>NAME</div>
               <div>{phone.name}</div>
             </div>
             {phone.description && (
-              <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: '200px 1fr',
-                  gap: '2rem',
-                  padding: '1rem 0',
-                  borderBottom: '1px solid var(--border-color)',
-                  fontSize: '0.875rem',
-                }}
-              >
-                <div style={{ textTransform: 'uppercase', letterSpacing: '0.05em' }}>DESCRIPTION</div>
+              <div className={styles.specRow}>
+                <div className={styles.specLabel}>DESCRIPTION</div>
                 <div>{phone.description}</div>
               </div>
             )}
             {phone.specs.screen && (
-              <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: '200px 1fr',
-                  gap: '2rem',
-                  padding: '1rem 0',
-                  borderBottom: '1px solid var(--border-color)',
-                  fontSize: '0.875rem',
-                }}
-              >
-                <div style={{ textTransform: 'uppercase', letterSpacing: '0.05em' }}>SCREEN</div>
+              <div className={styles.specRow}>
+                <div className={styles.specLabel}>SCREEN</div>
                 <div>{phone.specs.screen}</div>
               </div>
             )}
             {phone.specs.resolution && (
-              <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: '200px 1fr',
-                  gap: '2rem',
-                  padding: '1rem 0',
-                  borderBottom: '1px solid var(--border-color)',
-                  fontSize: '0.875rem',
-                }}
-              >
-                <div style={{ textTransform: 'uppercase', letterSpacing: '0.05em' }}>RESOLUTION</div>
+              <div className={styles.specRow}>
+                <div className={styles.specLabel}>RESOLUTION</div>
                 <div>{phone.specs.resolution}</div>
               </div>
             )}
             {phone.specs.processor && (
-              <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: '200px 1fr',
-                  gap: '2rem',
-                  padding: '1rem 0',
-                  borderBottom: '1px solid var(--border-color)',
-                  fontSize: '0.875rem',
-                }}
-              >
-                <div style={{ textTransform: 'uppercase', letterSpacing: '0.05em' }}>PROCESSOR</div>
+              <div className={styles.specRow}>
+                <div className={styles.specLabel}>PROCESSOR</div>
                 <div>{phone.specs.processor}</div>
               </div>
             )}
             {phone.specs.mainCamera && (
-              <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: '200px 1fr',
-                  gap: '2rem',
-                  padding: '1rem 0',
-                  borderBottom: '1px solid var(--border-color)',
-                  fontSize: '0.875rem',
-                }}
-              >
-                <div style={{ textTransform: 'uppercase', letterSpacing: '0.05em' }}>MAIN CAMERA</div>
+              <div className={styles.specRow}>
+                <div className={styles.specLabel}>MAIN CAMERA</div>
                 <div>{phone.specs.mainCamera}</div>
               </div>
             )}
             {phone.specs.selfieCamera && (
-              <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: '200px 1fr',
-                  gap: '2rem',
-                  padding: '1rem 0',
-                  borderBottom: '1px solid var(--border-color)',
-                  fontSize: '0.875rem',
-                }}
-              >
-                <div style={{ textTransform: 'uppercase', letterSpacing: '0.05em' }}>SELFIE CAMERA</div>
+              <div className={styles.specRow}>
+                <div className={styles.specLabel}>SELFIE CAMERA</div>
                 <div>{phone.specs.selfieCamera}</div>
               </div>
             )}
             {phone.specs.battery && (
-              <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: '200px 1fr',
-                  gap: '2rem',
-                  padding: '1rem 0',
-                  borderBottom: '1px solid var(--border-color)',
-                  fontSize: '0.875rem',
-                }}
-              >
-                <div style={{ textTransform: 'uppercase', letterSpacing: '0.05em' }}>BATTERY</div>
+              <div className={styles.specRow}>
+                <div className={styles.specLabel}>BATTERY</div>
                 <div>{phone.specs.battery}</div>
               </div>
             )}
             {phone.specs.os && (
-              <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: '200px 1fr',
-                  gap: '2rem',
-                  padding: '1rem 0',
-                  borderBottom: '1px solid var(--border-color)',
-                  fontSize: '0.875rem',
-                }}
-              >
-                <div style={{ textTransform: 'uppercase', letterSpacing: '0.05em' }}>OS</div>
+              <div className={styles.specRow}>
+                <div className={styles.specLabel}>OS</div>
                 <div>{phone.specs.os}</div>
               </div>
             )}
             {phone.specs.screenRefreshRate && (
-              <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: '200px 1fr',
-                  gap: '2rem',
-                  padding: '1rem 0',
-                  borderBottom: '1px solid var(--border-color)',
-                  fontSize: '0.875rem',
-                }}
-              >
-                <div style={{ textTransform: 'uppercase', letterSpacing: '0.05em' }}>SCREEN REFRESH RATE</div>
+              <div className={styles.specRow}>
+                <div className={styles.specLabel}>SCREEN REFRESH RATE</div>
                 <div>{phone.specs.screenRefreshRate}</div>
               </div>
             )}
@@ -386,27 +189,10 @@ export function PhoneDetailClient({ phone }: PhoneDetailClientProps) {
         </div>
       )}
 
-      {/* Similar Items */}
       {phone.similarProducts && phone.similarProducts.length > 0 && (
-        <div>
-          <h2
-            style={{
-              fontSize: '0.875rem',
-              marginBottom: '2rem',
-              textTransform: 'uppercase',
-              letterSpacing: '0.05em',
-              fontWeight: 'normal',
-            }}
-          >
-            SIMILAR ITEMS
-          </h2>
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(5, 1fr)',
-              gap: '0',
-            }}
-          >
+        <div className={styles.similarItems}>
+          <h2 className={styles.similarTitle}>SIMILAR ITEMS</h2>
+          <div className={styles.similarGrid}>
             {phone.similarProducts.map((product) => (
               <ProductCard
                 key={product.id}

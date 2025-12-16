@@ -2,56 +2,28 @@
 
 import Link from 'next/link';
 import { useCart } from '@/contexts/CartContext';
+import styles from './Navbar.module.css';
 
 export function Navbar() {
   const { itemCount } = useCart();
 
   return (
-    <nav
-      style={{
-        position: 'sticky',
-        top: 0,
-        zIndex: 1000,
-        backgroundColor: 'white',
-        borderBottom: '1px solid var(--border-color)',
-      }}
-    >
-      <div
-        style={{
-          padding: '1.25rem 4rem',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}
-      >
+    <nav className={styles.navbar}>
+      <div className={styles.container}>
         {/* Logo */}
-        <Link href="/" style={{ textDecoration: 'none' }}>
+        <Link href="/" className={styles.logo}>
           <img
             src="/logo.svg"
             alt="MBST"
-            style={{
-              height: '20px',
-              width: 'auto',
-            }}
+            className={styles.logoImage}
           />
         </Link>
 
         {/* Cart Icon */}
-        <Link
-          href="/cart"
-          style={{
-            textDecoration: 'none',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.5rem',
-            color: 'var(--foreground)',
-            fontSize: '0.875rem',
-          }}
-        >
+        <Link href="/cart" className={styles.cartLink}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
+            className={styles.cartIcon}
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"

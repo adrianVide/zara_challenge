@@ -1,0 +1,15 @@
+.container {
+  padding: var(--page-padding);
+}
+
+.error {
+  color: var(--error-color);
+  padding: var(--spacing-lg);
+  text-align: center;
+}
+
+.errorLink {
+  display: inline-block;
+  margin-top: var(--spacing-md);
+  text-decoration: underline;
+}

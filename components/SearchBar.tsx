@@ -2,6 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
+import styles from './SearchBar.module.css';
 
 export function SearchBar() {
   const router = useRouter();
@@ -39,22 +40,13 @@ export function SearchBar() {
   }, [searchValue, router, searchParams]);
 
   return (
-    <div style={{ marginBottom: "3rem" }}>
+    <div className={styles.container}>
       <input
         type="text"
         value={searchValue}
         onChange={(e) => setSearchValue(e.target.value)}
         placeholder="Search for a smartphone..."
-        style={{
-          width: "100%",
-          padding: "0.75rem 0",
-          border: "none",
-          borderBottom: "1px solid var(--border-color)",
-          fontSize: "0.875rem",
-          outline: "none",
-          backgroundColor: "transparent",
-          fontFamily: "Helvetica, Arial, sans-serif",
-        }}
+        className={styles.input}
       />
     </div>
   );

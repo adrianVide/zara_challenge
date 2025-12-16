@@ -2,19 +2,14 @@
 
 import { useMobilePhones } from '@/contexts/MobilePhonesContext';
 import { ProductCard } from './ProductCard';
+import styles from './MobilePhonesList.module.css';
 
 export function MobilePhonesList() {
   const { mobilePhones, error, currentPage, itemsPerPage } = useMobilePhones();
 
   if (error) {
     return (
-      <div
-        style={{
-          color: 'var(--error-color)',
-          padding: '1rem',
-          textAlign: 'center',
-        }}
-      >
+      <div className={styles.error}>
         <strong>Error:</strong> {error}
       </div>
     );
@@ -30,7 +25,7 @@ export function MobilePhonesList() {
 
   if (uniquePhones.length === 0) {
     return (
-      <div style={{ padding: '2rem', textAlign: 'center' }}>
+      <div className={styles.empty}>
         <p>No phones found</p>
       </div>
     );
@@ -38,23 +33,10 @@ export function MobilePhonesList() {
 
   return (
     <div>
-      <div
-        style={{
-          fontSize: '0.75rem',
-          marginBottom: '2rem',
-          letterSpacing: '0.05em',
-        }}
-      >
+      <div className={styles.resultsCount}>
         {uniquePhones.length} RESULTS
       </div>
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(5, 1fr)',
-          gap: '0',
-          marginBottom: '3rem',
-        }}
-      >
+      <div className={styles.grid}>
         {uniquePhones.map((phone) => (
           <ProductCard
             key={phone.id}

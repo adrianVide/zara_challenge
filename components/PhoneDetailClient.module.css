@@ -1,0 +1,172 @@
+.container {
+  padding: var(--page-padding);
+}
+
+.backButton {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  background: none;
+  border: none;
+  font-size: var(--font-size-base);
+  margin-bottom: var(--spacing-xl);
+  cursor: pointer;
+}
+
+.backIcon {
+  width: 16px;
+  height: 16px;
+}
+
+.productDetail {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-xxl);
+  margin-bottom: 5rem;
+}
+
+.imageContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  object-fit: contain;
+}
+
+.title {
+  margin: 0 0 var(--spacing-md) 0;
+  font-size: var(--font-size-lg);
+  font-weight: normal;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.price {
+  font-size: var(--font-size-md);
+  margin: 0 0 var(--spacing-lg) 0;
+}
+
+.selector {
+  margin-bottom: var(--spacing-lg);
+}
+
+.selectorLabel {
+  font-size: var(--font-size-sm);
+  margin-bottom: var(--spacing-md);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.storageOptions {
+  display: flex;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+.storageButton {
+  padding: 0.75rem 1.5rem;
+  border: 1px solid var(--border-color);
+  background-color: white;
+  cursor: pointer;
+  font-size: var(--font-size-sm);
+}
+
+.storageButton.selected {
+  border: 2px solid var(--foreground);
+}
+
+.colorOptions {
+  display: flex;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+  margin-bottom: var(--spacing-sm);
+}
+
+.colorButton {
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+  padding: 0;
+}
+
+.colorButton.selected {
+  border: 2px solid var(--foreground);
+}
+
+.colorName {
+  font-size: var(--font-size-sm);
+  color: #666;
+}
+
+.addButton {
+  width: 100%;
+  padding: var(--spacing-md);
+  background-color: var(--foreground);
+  color: white;
+  border: none;
+  font-size: var(--font-size-base);
+  font-weight: normal;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+}
+
+.addButton:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.specifications {
+  margin-bottom: 5rem;
+}
+
+.specsTitle {
+  font-size: var(--font-size-base);
+  margin-bottom: var(--spacing-lg);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: normal;
+}
+
+.specsTable {
+  border-top: 1px solid var(--border-color);
+}
+
+.specRow {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-md) 0;
+  border-bottom: 1px solid var(--border-color);
+  font-size: var(--font-size-base);
+}
+
+.specLabel {
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.similarTitle {
+  font-size: var(--font-size-base);
+  margin-bottom: var(--spacing-lg);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: normal;
+}
+
+.similarGrid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0;
+}
+
+.error {
+  color: var(--error-color);
+  padding: var(--spacing-lg);
+  text-align: center;
+}
