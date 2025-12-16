@@ -1,0 +1,67 @@
+# dependencies
+node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# next.js build output
+.next
+out
+build
+dist
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+*.log
+logs
+
+# local env files
+.env
+.env*.local
+.env.development
+.env.test
+.env.production
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# testing
+coverage
+.nyc_output
+
+# ide
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# git
+.git
+.gitignore
+.gitattributes
+
+# docker
+Dockerfile
+.dockerignore
+docker-compose.yml
+
+# documentation
+README.md
+CLAUDE.md
+*.md
+
+# CI/CD
+.github
+.gitlab-ci.yml
+.travis.yml
