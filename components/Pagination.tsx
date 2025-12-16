@@ -13,7 +13,10 @@ export function Pagination({ currentPage, itemsPerPage }: PaginationProps) {
   const searchParams = useSearchParams();
   const { mobilePhones } = useMobilePhones();
 
-  const hasNextPage = mobilePhones.length === itemsPerPage;
+  const endIndex = currentPage * itemsPerPage;
+  const hasItemsInContextForNextPage = mobilePhones.length > endIndex;
+  const lastFetchWasFull = mobilePhones.length % itemsPerPage === 0 && mobilePhones.length > 0;
+  const hasNextPage = hasItemsInContextForNextPage || lastFetchWasFull;
   const hasPreviousPage = currentPage > 1;
 
   const navigateToPage = (page: number) => {

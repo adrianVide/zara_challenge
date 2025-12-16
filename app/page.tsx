@@ -29,7 +29,12 @@ export default async function Home({ searchParams }: HomeProps) {
   }
 
   return (
-    <MobilePhonesProvider initialData={mobilePhones} error={error}>
+    <MobilePhonesProvider
+      initialData={mobilePhones}
+      error={error}
+      currentPage={currentPage}
+      itemsPerPage={ITEMS_PER_PAGE}
+    >
       <div style={{ padding: "2rem", fontFamily: "monospace" }}>
         <h1>Mobile Phones API Response</h1>
         <MobilePhonesList />

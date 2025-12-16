@@ -3,7 +3,7 @@
 import { useMobilePhones } from '@/contexts/MobilePhonesContext';
 
 export function MobilePhonesList() {
-  const { mobilePhones, error } = useMobilePhones();
+  const { mobilePhones, error, currentPage, itemsPerPage } = useMobilePhones();
 
   if (error) {
     return (
@@ -21,10 +21,16 @@ export function MobilePhonesList() {
     );
   }
 
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentPagePhones = mobilePhones.slice(startIndex, endIndex);
+
   return (
     <div>
       <p style={{ marginBottom: '1rem' }}>
-        <strong>Total phones fetched:</strong> {mobilePhones.length}
+        <strong>Total phones in context:</strong> {mobilePhones.length} |{' '}
+        <strong>Showing:</strong> {currentPagePhones.length} phones (items {startIndex + 1}-
+        {Math.min(endIndex, mobilePhones.length)})
       </p>
       <pre
         style={{
@@ -35,7 +41,7 @@ export function MobilePhonesList() {
           maxHeight: '80vh',
         }}
       >
-        {JSON.stringify(mobilePhones, null, 2)}
+        {JSON.stringify(currentPagePhones, null, 2)}
       </pre>
     </div>
   );
