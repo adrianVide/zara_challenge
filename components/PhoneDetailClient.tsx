@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import type { ProductDetail } from '@/types/mobile';
+import { useCart } from '@/contexts/CartContext';
+import type { ProductDetail, CartItem } from '@/types/mobile';
 
 interface PhoneDetailClientProps {
   phone: ProductDetail;
@@ -10,10 +11,31 @@ interface PhoneDetailClientProps {
 export function PhoneDetailClient({ phone }: PhoneDetailClientProps) {
   const [selectedColorIndex, setSelectedColorIndex] = useState(0);
   const [selectedStorageIndex, setSelectedStorageIndex] = useState(0);
+  const { addItem } = useCart();
 
   const selectedColor = phone.colorOptions[selectedColorIndex];
   const selectedStorage = phone.storageOptions[selectedStorageIndex];
   const currentPrice = selectedStorage?.price || phone.basePrice;
+
+  const hasColorOptions = phone.colorOptions && phone.colorOptions.length > 0;
+  const hasStorageOptions = phone.storageOptions && phone.storageOptions.length > 0;
+  const canAddToCart = (!hasColorOptions || selectedColor) && (!hasStorageOptions || selectedStorage);
+
+  const handleAddToCart = () => {
+    const cartItem: CartItem = {
+      id: `${phone.id}-${selectedColor?.name || 'default'}-${selectedStorage?.capacity || 'default'}-${Date.now()}`,
+      productId: phone.id,
+      brand: phone.brand,
+      name: phone.name,
+      color: selectedColor?.name || 'Default',
+      colorHexCode: selectedColor?.hexCode || '#000000',
+      storage: selectedStorage?.capacity || 'Standard',
+      price: currentPrice,
+      imageUrl: selectedColor?.imageUrl || phone.colorOptions[0]?.imageUrl || '',
+    };
+    addItem(cartItem);
+    alert('Added to cart!');
+  };
 
   return (
     <div
@@ -32,7 +54,6 @@ export function PhoneDetailClient({ phone }: PhoneDetailClientProps) {
           gap: "3rem",
         }}
       >
-        {/* Left side - Image */}
         <div>
           <img
             src={selectedColor?.imageUrl || phone.colorOptions[0]?.imageUrl}
@@ -48,7 +69,6 @@ export function PhoneDetailClient({ phone }: PhoneDetailClientProps) {
           />
         </div>
 
-        {/* Right side - Details */}
         <div>
           <h1 style={{ margin: "0 0 0.5rem 0", fontSize: "2rem" }}>
             {phone.brand} {phone.name}
@@ -77,7 +97,6 @@ export function PhoneDetailClient({ phone }: PhoneDetailClientProps) {
             </p>
           )}
 
-          {/* Color Selector */}
           {phone.colorOptions && phone.colorOptions.length > 0 && (
             <div style={{ marginTop: "2rem" }}>
               <h3 style={{ fontSize: "1rem", marginBottom: "0.75rem" }}>
@@ -107,7 +126,6 @@ export function PhoneDetailClient({ phone }: PhoneDetailClientProps) {
             </div>
           )}
 
-          {/* Storage Selector */}
           {phone.storageOptions && phone.storageOptions.length > 0 && (
             <div style={{ marginTop: "2rem" }}>
               <h3 style={{ fontSize: "1rem", marginBottom: "0.75rem" }}>
@@ -140,10 +158,29 @@ export function PhoneDetailClient({ phone }: PhoneDetailClientProps) {
               </div>
             </div>
           )}
+
+          <div style={{ marginTop: "2rem" }}>
+            <button
+              onClick={handleAddToCart}
+              disabled={!canAddToCart}
+              style={{
+                padding: "1rem 2rem",
+                backgroundColor: canAddToCart ? "#0070f3" : "#ccc",
+                color: "white",
+                border: "none",
+                borderRadius: "8px",
+                fontSize: "1rem",
+                fontWeight: "bold",
+                cursor: canAddToCart ? "pointer" : "not-allowed",
+                width: "100%",
+              }}
+            >
+              Add to Cart
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Specs Section */}
       {phone.specs && (
         <div
           style={{
@@ -207,7 +244,6 @@ export function PhoneDetailClient({ phone }: PhoneDetailClientProps) {
         </div>
       )}
 
-      {/* Similar Products Section */}
       {phone.similarProducts && phone.similarProducts.length > 0 && (
         <div style={{ marginTop: "3rem" }}>
           <h2 style={{ fontSize: "1.5rem", marginBottom: "1.5rem" }}>
