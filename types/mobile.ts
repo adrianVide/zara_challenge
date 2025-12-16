@@ -18,6 +18,7 @@ export interface StorageOption {
 }
 
 export interface Specs {
+  brand: string;
   screen: string;
   resolution: string;
   processor: string;
