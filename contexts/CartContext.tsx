@@ -21,23 +21,23 @@ interface CartProviderProps {
 }
 
 export function CartProvider({ children }: CartProviderProps) {
-  const [items, setItems] = useState<CartItem[]>(() => {
-    if (typeof window === 'undefined') {
-      return [];
-    }
-    const storedCart = localStorage.getItem(CART_STORAGE_KEY);
-    if (storedCart) {
-      try {
-        return JSON.parse(storedCart);
-      } catch (error) {
-        console.error('Error loading cart from localStorage:', error);
-        return [];
-      }
-    }
-    return [];
-  });
-
+  const [items, setItems] = useState<CartItem[]>([]);
   const isInitialMount = useRef(true);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      const storedCart = localStorage.getItem(CART_STORAGE_KEY);
+      if (storedCart) {
+        try {
+          setItems(JSON.parse(storedCart));
+        } catch (error) {
+          console.error('Error loading cart from localStorage:', error);
+        }
+      }
+    }, 0);
+
+    return () => clearTimeout(timeoutId);
+  }, []);
 
   useEffect(() => {
     if (isInitialMount.current) {
