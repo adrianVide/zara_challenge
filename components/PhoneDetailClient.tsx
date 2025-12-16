@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { useCart } from '@/contexts/CartContext';
 import { ProductCard } from './ProductCard';
 import type { ProductDetail, CartItem } from '@/types/mobile';
@@ -52,10 +53,13 @@ export function PhoneDetailClient({ phone }: PhoneDetailClientProps) {
 
       <div className={styles.productDetail}>
         <div className={styles.imageContainer}>
-          <img
+          <Image
             src={selectedColor?.imageUrl || phone.colorOptions[0]?.imageUrl}
             alt={`${phone.brand} ${phone.name}`}
             className={styles.image}
+            width={400}
+            height={400}
+            priority
           />
         </div>
 

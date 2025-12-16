@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import styles from './ProductCard.module.css';
 
 interface ProductCardProps {
@@ -21,10 +22,13 @@ export function ProductCard({ id, brand, name, price, imageUrl }: ProductCardPro
   return (
     <div onClick={handleClick} className={styles.card}>
       <div className={styles.imageContainer}>
-        <img
+        <Image
           src={imageUrl}
           alt={`${brand} ${name}`}
           className={styles.image}
+          width={300}
+          height={300}
+          loading="lazy"
         />
       </div>
 
