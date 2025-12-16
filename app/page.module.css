@@ -1,1 +1,5 @@
-.container { padding: var(--page-padding); }
+.container {
+  padding: var(--page-padding);
+  padding-left: var(--horizontal-padding);
+  padding-right: var(--horizontal-padding);
+}

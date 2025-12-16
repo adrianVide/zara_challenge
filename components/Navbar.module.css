@@ -3,11 +3,10 @@
   top: 0;
   z-index: 1000;
   background-color: white;
-  border-bottom: 1px solid var(--border-color);
 }
 
 .container {
-  padding: 1.25rem var(--spacing-xxl);
+  padding: 1.25rem var(--horizontal-padding);
   display: flex;
   justify-content: space-between;
   align-items: center;
