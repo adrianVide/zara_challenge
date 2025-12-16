@@ -31,22 +31,30 @@ export function MobilePhonesProvider({
   itemsPerPage,
   searchQuery = '',
 }: MobilePhonesProviderProps) {
-  const [allPhones, setAllPhones] = useState<MobilePhone[]>(initialData);
-  const [prevInitialData, setPrevInitialData] = useState(initialData);
+  const deduplicatedInitialData = Array.from(
+    new Map(initialData.map(phone => [phone.id, phone])).values()
+  );
+
+  const [allPhones, setAllPhones] = useState<MobilePhone[]>(deduplicatedInitialData);
   const [prevSearchQuery, setPrevSearchQuery] = useState(searchQuery);
+  const [processedIds, setProcessedIds] = useState<Set<string>>(
+    new Set(deduplicatedInitialData.map(p => p.id))
+  );
 
   if (searchQuery !== prevSearchQuery) {
     setPrevSearchQuery(searchQuery);
-    setPrevInitialData(initialData);
-    setAllPhones(initialData);
-  } else if (initialData !== prevInitialData) {
-    setPrevInitialData(initialData);
-
-    const existingIds = new Set(allPhones.map((phone) => phone.id));
-    const newPhones = initialData.filter((phone) => !existingIds.has(phone.id));
+    setAllPhones(deduplicatedInitialData);
+    setProcessedIds(new Set(deduplicatedInitialData.map(p => p.id)));
+  } else {
+    const newPhones = initialData.filter((phone) => !processedIds.has(phone.id));
 
     if (newPhones.length > 0) {
       setAllPhones([...allPhones, ...newPhones]);
+      setProcessedIds(prev => {
+        const newSet = new Set(prev);
+        newPhones.forEach(phone => newSet.add(phone.id));
+        return newSet;
+      });
     }
   }
 

@@ -13,6 +13,56 @@ interface HomeProps {
   searchParams: Promise<{ page?: string; search?: string }>;
 }
 
+async function fetchUniquePhones(
+  targetCount: number,
+  offset: number,
+  searchQuery: string
+): Promise<MobilePhone[]> {
+  const allPhones: MobilePhone[] = [];
+  const seenIds = new Set<string>();
+  let currentOffset = offset;
+  let fetchLimit = targetCount;
+  const maxAttempts = 5;
+  let attempts = 0;
+
+  while (allPhones.length < targetCount && attempts < maxAttempts) {
+    attempts++;
+
+    const batch = await getMobilePhones({
+      limit: fetchLimit,
+      offset: currentOffset,
+      search: searchQuery,
+    });
+
+    if (batch.length === 0) {
+      break;
+    }
+
+    let duplicatesInBatch = 0;
+
+    for (const phone of batch) {
+      if (!seenIds.has(phone.id)) {
+        seenIds.add(phone.id);
+        allPhones.push(phone);
+        if (allPhones.length === targetCount) {
+          break;
+        }
+      } else {
+        duplicatesInBatch++;
+      }
+    }
+
+    if (allPhones.length < targetCount && duplicatesInBatch > 0) {
+      currentOffset += batch.length;
+      fetchLimit = duplicatesInBatch;
+    } else {
+      break;
+    }
+  }
+
+  return allPhones;
+}
+
 export default async function Home({ searchParams }: HomeProps) {
   const params = await searchParams;
   const currentPage = Number(params.page) || 1;
@@ -23,11 +73,7 @@ export default async function Home({ searchParams }: HomeProps) {
   let error: string | null = null;
 
   try {
-    mobilePhones = await getMobilePhones({
-      limit: ITEMS_PER_PAGE,
-      offset,
-      search: searchQuery,
-    });
+    mobilePhones = await fetchUniquePhones(ITEMS_PER_PAGE, offset, searchQuery);
   } catch (err) {
     error =
       err instanceof Error ? err.message : "Failed to fetch mobile phones";
@@ -42,12 +88,11 @@ export default async function Home({ searchParams }: HomeProps) {
       itemsPerPage={ITEMS_PER_PAGE}
       searchQuery={searchQuery}
     >
-      <div style={{ padding: "2rem", fontFamily: "monospace" }}>
-        <h1>Mobile Phones Catalog</h1>
-        <p style={{ color: "#666", marginBottom: "1rem" }}>
+      <div style={{ padding: "2rem", maxWidth: "1400px", margin: "0 auto" }}>
+        <p style={{ color: "#666", marginBottom: "1.5rem" }}>
           {searchQuery
-            ? `Search results for: "${searchQuery}" | Page ${currentPage}`
-            : `All phones | Page ${currentPage}`}
+            ? `Search results for: "${searchQuery}"`
+            : "Browse our collection of mobile phones"}
         </p>
         <SearchBar />
         <Pagination currentPage={currentPage} itemsPerPage={ITEMS_PER_PAGE} />
