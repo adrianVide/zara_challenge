@@ -20,6 +20,7 @@ interface MobilePhonesProviderProps {
   error?: string | null;
   currentPage: number;
   itemsPerPage: number;
+  searchQuery?: string;
 }
 
 export function MobilePhonesProvider({
@@ -28,11 +29,17 @@ export function MobilePhonesProvider({
   error = null,
   currentPage,
   itemsPerPage,
+  searchQuery = '',
 }: MobilePhonesProviderProps) {
   const [allPhones, setAllPhones] = useState<MobilePhone[]>(initialData);
   const [prevInitialData, setPrevInitialData] = useState(initialData);
+  const [prevSearchQuery, setPrevSearchQuery] = useState(searchQuery);
 
-  if (initialData !== prevInitialData) {
+  if (searchQuery !== prevSearchQuery) {
+    setPrevSearchQuery(searchQuery);
+    setPrevInitialData(initialData);
+    setAllPhones(initialData);
+  } else if (initialData !== prevInitialData) {
     setPrevInitialData(initialData);
 
     const existingIds = new Set(allPhones.map((phone) => phone.id));
