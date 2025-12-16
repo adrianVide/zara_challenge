@@ -26,6 +26,12 @@ export function PhoneDetailClient({ phone }: PhoneDetailClientProps) {
   const hasStorageOptions = phone.storageOptions && phone.storageOptions.length > 0;
   const canAddToCart = (!hasColorOptions || selectedColor) && (!hasStorageOptions || selectedStorage);
 
+  const uniqueSimilarProducts = phone.similarProducts
+    ? Array.from(
+        new Map(phone.similarProducts.map(product => [product.id, product])).values()
+      )
+    : [];
+
   const handleAddToCart = () => {
     const cartItem: CartItem = {
       id: `${phone.id}-${selectedColor?.name || 'default'}-${selectedStorage?.capacity || 'default'}-${Date.now()}`,
@@ -193,11 +199,11 @@ export function PhoneDetailClient({ phone }: PhoneDetailClientProps) {
         </div>
       )}
 
-      {phone.similarProducts && phone.similarProducts.length > 0 && (
+      {uniqueSimilarProducts.length > 0 && (
         <div className={styles.similarItems}>
           <h2 className={styles.similarTitle}>SIMILAR ITEMS</h2>
           <div className={styles.similarGrid}>
-            {phone.similarProducts.map((product) => (
+            {uniqueSimilarProducts.map((product) => (
               <ProductCard
                 key={product.id}
                 id={product.id}

@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import Image from 'next/image';
 import styles from './ProductCard.module.css';
 
@@ -13,14 +13,8 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ id, brand, name, price, imageUrl }: ProductCardProps) {
-  const router = useRouter();
-
-  const handleClick = () => {
-    router.push(`/phone/${id}`);
-  };
-
   return (
-    <div onClick={handleClick} className={styles.card}>
+    <Link href={`/phone/${id}`} className={styles.card}>
       <div className={styles.imageContainer}>
         <Image
           src={imageUrl}
@@ -40,6 +34,6 @@ export function ProductCard({ id, brand, name, price, imageUrl }: ProductCardPro
           <span className={styles.price}>{price} EUR</span>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

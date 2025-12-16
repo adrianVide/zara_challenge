@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import styles from './SearchBar.module.css';
 
 export function SearchBar() {
@@ -11,33 +11,44 @@ export function SearchBar() {
     searchParams.get("search") || ""
   );
   const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const lastNavigatedSearchRef = useRef(searchParams.get("search") || "");
 
-  useEffect(() => {
+  const handleSearchChange = useCallback((value: string) => {
     if (debounceTimerRef.current) {
       clearTimeout(debounceTimerRef.current);
     }
 
     debounceTimerRef.current = setTimeout(() => {
-      const params = new URLSearchParams(searchParams.toString());
+      const trimmedValue = value.trim();
 
-      if (searchValue.trim()) {
-        params.set("search", searchValue.trim());
-        params.delete("page");
-      } else {
-        params.delete("search");
+      if (trimmedValue !== lastNavigatedSearchRef.current) {
+        lastNavigatedSearchRef.current = trimmedValue;
+
+        const params = new URLSearchParams(window.location.search);
+
+        if (trimmedValue) {
+          params.set("search", trimmedValue);
+          params.delete("page");
+        } else {
+          params.delete("search");
+        }
+
+        const queryString = params.toString();
+        const url = queryString ? `/?${queryString}` : "/";
+        router.push(url);
       }
+    }, 500);
+  }, [router]);
 
-      const queryString = params.toString();
-      const url = queryString ? `/?${queryString}` : "/";
-      router.push(url);
-    }, 2000);
+  useEffect(() => {
+    handleSearchChange(searchValue);
 
     return () => {
       if (debounceTimerRef.current) {
         clearTimeout(debounceTimerRef.current);
       }
     };
-  }, [searchValue, router, searchParams]);
+  }, [searchValue, handleSearchChange]);
 
   return (
     <div className={styles.container}>
