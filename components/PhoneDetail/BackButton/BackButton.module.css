@@ -1,0 +1,17 @@
+.backButton {
+  margin-left: var(--horizontal-padding);
+  margin-top: var(--spacing-xl);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  background: none;
+  border: none;
+  font-size: var(--font-size-base);
+  margin-bottom: var(--spacing-xl);
+  cursor: pointer;
+}
+
+.backIcon {
+  width: 16px;
+  height: 16px;
+}

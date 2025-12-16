@@ -1,7 +1,7 @@
 'use client';
 
 import { useMobilePhones } from '@/contexts/MobilePhonesContext';
-import { ProductCard } from './ProductCard';
+import { ProductCard } from '../ProductCard/ProductCard';
 import styles from './MobilePhonesList.module.css';
 
 export function MobilePhonesList() {

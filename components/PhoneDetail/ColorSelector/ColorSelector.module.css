@@ -1,0 +1,34 @@
+.selector {
+  margin-bottom: var(--spacing-lg);
+}
+
+.selectorLabel {
+  font-size: var(--font-size-sm);
+  margin-bottom: var(--spacing-md);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.colorOptions {
+  display: flex;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+  margin-bottom: var(--spacing-sm);
+}
+
+.colorButton {
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+  padding: 0;
+}
+
+.colorButton.selected {
+  border: 2px solid var(--foreground);
+}
+
+.colorName {
+  font-size: var(--font-size-sm);
+  color: #666;
+}

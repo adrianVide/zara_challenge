@@ -1,7 +1,7 @@
 import { getMobilePhoneById } from "@/lib/api/mobile-api";
 import type { ProductDetail } from "@/types/mobile";
 import Link from "next/link";
-import { PhoneDetailClient } from "@/components/PhoneDetailClient";
+import { PhoneDetailClient } from "@/components/PhoneDetail/PhoneDetailClient";
 import styles from "./page.module.css";
 
 export const revalidate = 60;

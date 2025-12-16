@@ -1,0 +1,29 @@
+.specifications {
+  margin-bottom: 5rem;
+}
+
+.specsTitle {
+  font-size: var(--font-size-base);
+  margin-bottom: var(--spacing-lg);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: normal;
+}
+
+.specsTable {
+  border-top: 1px solid var(--border-color);
+}
+
+.specRow {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-md) 0;
+  border-bottom: 1px solid var(--border-color);
+  font-size: var(--font-size-base);
+}
+
+.specLabel {
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
