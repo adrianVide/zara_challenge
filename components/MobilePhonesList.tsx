@@ -1,7 +1,7 @@
 'use client';
 
 import { useMobilePhones } from '@/contexts/MobilePhonesContext';
-import { MobilePhoneCard } from './MobilePhoneCard';
+import { ProductCard } from './ProductCard';
 
 export function MobilePhonesList() {
   const { mobilePhones, error, currentPage, itemsPerPage } = useMobilePhones();
@@ -10,11 +10,9 @@ export function MobilePhonesList() {
     return (
       <div
         style={{
-          color: 'red',
+          color: 'var(--error-color)',
           padding: '1rem',
-          border: '1px solid red',
-          borderRadius: '4px',
-          backgroundColor: '#fee',
+          textAlign: 'center',
         }}
       >
         <strong>Error:</strong> {error}
@@ -40,19 +38,32 @@ export function MobilePhonesList() {
 
   return (
     <div>
-      <p style={{ marginBottom: '1rem', color: '#666' }}>
-        Showing {uniquePhones.length} phones
-      </p>
+      <div
+        style={{
+          fontSize: '0.75rem',
+          marginBottom: '2rem',
+          letterSpacing: '0.05em',
+        }}
+      >
+        {uniquePhones.length} RESULTS
+      </div>
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
-          gap: '1rem',
-          marginBottom: '2rem',
+          gridTemplateColumns: 'repeat(5, 1fr)',
+          gap: '0',
+          marginBottom: '3rem',
         }}
       >
         {uniquePhones.map((phone) => (
-          <MobilePhoneCard key={phone.id} phone={phone} />
+          <ProductCard
+            key={phone.id}
+            id={phone.id}
+            brand={phone.brand}
+            name={phone.name}
+            price={phone.basePrice}
+            imageUrl={phone.imageUrl}
+          />
         ))}
       </div>
     </div>

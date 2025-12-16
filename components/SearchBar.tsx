@@ -39,25 +39,23 @@ export function SearchBar() {
   }, [searchValue, router, searchParams]);
 
   return (
-    <div style={{ marginBottom: "1rem" }}>
+    <div style={{ marginBottom: "3rem" }}>
       <input
         type="text"
         value={searchValue}
         onChange={(e) => setSearchValue(e.target.value)}
-        placeholder="Search by brand or name..."
+        placeholder="Search for a smartphone..."
         style={{
           width: "100%",
-          padding: "0.5rem",
-          border: "1px solid #ccc",
-          borderRadius: "4px",
-          fontSize: "1rem",
+          padding: "0.75rem 0",
+          border: "none",
+          borderBottom: "1px solid var(--border-color)",
+          fontSize: "0.875rem",
+          outline: "none",
+          backgroundColor: "transparent",
+          fontFamily: "Helvetica, Arial, sans-serif",
         }}
       />
-      {searchValue && (
-        <p style={{ fontSize: "0.875rem", color: "#666", marginTop: "0.5rem" }}>
-          Searching for: "{searchValue}"
-        </p>
-      )}
     </div>
   );
 }

@@ -36,25 +36,46 @@ export function Pagination({ currentPage, itemsPerPage }: PaginationProps) {
     <div
       style={{
         display: "flex",
-        gap: "0.5rem",
+        gap: "1rem",
         alignItems: "center",
-        margin: "1rem 0",
+        justifyContent: "center",
+        margin: "3rem 0",
       }}
     >
       <button
         onClick={() => navigateToPage(currentPage - 1)}
         disabled={!hasPreviousPage}
+        style={{
+          padding: "0.5rem 1.5rem",
+          border: "1px solid var(--foreground)",
+          backgroundColor: "transparent",
+          color: "var(--foreground)",
+          fontSize: "0.75rem",
+          letterSpacing: "0.05em",
+          cursor: hasPreviousPage ? "pointer" : "not-allowed",
+          opacity: hasPreviousPage ? 1 : 0.3,
+        }}
       >
-        Previous
+        PREVIOUS
       </button>
 
-      <span>Page {currentPage}</span>
+      <span style={{ fontSize: "0.75rem" }}>PAGE {currentPage}</span>
 
       <button
         onClick={() => navigateToPage(currentPage + 1)}
         disabled={!hasNextPage}
+        style={{
+          padding: "0.5rem 1.5rem",
+          border: "1px solid var(--foreground)",
+          backgroundColor: "transparent",
+          color: "var(--foreground)",
+          fontSize: "0.75rem",
+          letterSpacing: "0.05em",
+          cursor: hasNextPage ? "pointer" : "not-allowed",
+          opacity: hasNextPage ? 1 : 0.3,
+        }}
       >
-        Next
+        NEXT
       </button>
     </div>
   );

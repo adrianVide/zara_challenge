@@ -13,14 +13,12 @@ export function Navbar() {
         top: 0,
         zIndex: 1000,
         backgroundColor: 'white',
-        borderBottom: '1px solid #ddd',
-        padding: '1rem 2rem',
+        borderBottom: '1px solid var(--border-color)',
       }}
     >
       <div
         style={{
-          maxWidth: '1400px',
-          margin: '0 auto',
+          padding: '1.25rem 4rem',
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
@@ -32,7 +30,7 @@ export function Navbar() {
             src="/logo.svg"
             alt="MBST"
             style={{
-              height: '40px',
+              height: '20px',
               width: 'auto',
             }}
           />
@@ -46,35 +44,26 @@ export function Navbar() {
             display: 'flex',
             alignItems: 'center',
             gap: '0.5rem',
-            color: '#000',
-            position: 'relative',
+            color: 'var(--foreground)',
+            fontSize: '0.875rem',
           }}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
+            width="20"
+            height="20"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            strokeWidth="2"
+            strokeWidth="1.5"
             strokeLinecap="round"
             strokeLinejoin="round"
           >
-            <circle cx="9" cy="21" r="1" />
-            <circle cx="20" cy="21" r="1" />
-            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <path d="M16 10a4 4 0 0 1-8 0" />
           </svg>
-          {itemCount > 0 && (
-            <span
-              style={{
-                fontSize: '0.875rem',
-                fontWeight: 'bold',
-              }}
-            >
-              ({itemCount})
-            </span>
-          )}
+          <span>{itemCount}</span>
         </Link>
       </div>
     </nav>

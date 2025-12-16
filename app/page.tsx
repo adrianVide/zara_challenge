@@ -88,14 +88,8 @@ export default async function Home({ searchParams }: HomeProps) {
       itemsPerPage={ITEMS_PER_PAGE}
       searchQuery={searchQuery}
     >
-      <div style={{ padding: "2rem", maxWidth: "1400px", margin: "0 auto" }}>
-        <p style={{ color: "#666", marginBottom: "1.5rem" }}>
-          {searchQuery
-            ? `Search results for: "${searchQuery}"`
-            : "Browse our collection of mobile phones"}
-        </p>
+      <div style={{ padding: "3rem 4rem" }}>
         <SearchBar />
-        <Pagination currentPage={currentPage} itemsPerPage={ITEMS_PER_PAGE} />
         <MobilePhonesList />
         <Pagination currentPage={currentPage} itemsPerPage={ITEMS_PER_PAGE} />
       </div>

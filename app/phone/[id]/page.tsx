@@ -23,32 +23,29 @@ export default async function PhoneDetail({ params }: PhoneDetailProps) {
 
   if (error || !phone) {
     return (
-      <div style={{ padding: "2rem" }}>
-        <Link href="/" style={{ color: "#0070f3", textDecoration: "underline" }}>
-          ← Back to catalog
-        </Link>
+      <div style={{ padding: "3rem 4rem" }}>
         <div
           style={{
-            color: "red",
-            padding: "1rem",
-            border: "1px solid red",
-            borderRadius: "4px",
-            backgroundColor: "#fee",
-            marginTop: "1rem",
+            color: "var(--error-color)",
+            padding: "2rem",
+            textAlign: "center",
           }}
         >
           <strong>Error:</strong> {error || "Phone not found"}
         </div>
+        <Link
+          href="/"
+          style={{
+            display: "inline-block",
+            marginTop: "1rem",
+            textDecoration: "underline",
+          }}
+        >
+          Go back to home
+        </Link>
       </div>
     );
   }
 
-  return (
-    <div style={{ padding: "2rem" }}>
-      <Link href="/" style={{ color: "#0070f3", textDecoration: "underline", marginLeft: "2rem" }}>
-        ← Back to catalog
-      </Link>
-      <PhoneDetailClient phone={phone} />
-    </div>
-  );
+  return <PhoneDetailClient phone={phone} />;
 }

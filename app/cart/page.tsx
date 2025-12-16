@@ -1,19 +1,40 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useCart } from '@/contexts/CartContext';
 
 export default function CartPage() {
+  const router = useRouter();
   const { items, removeItem, totalPrice, itemCount } = useCart();
 
   if (itemCount === 0) {
     return (
-      <div style={{ padding: '2rem' }}>
-        <h1>Shopping Cart</h1>
-        <p>Your cart is empty</p>
+      <div style={{ padding: '3rem 4rem', minHeight: '60vh' }}>
+        <h1
+          style={{
+            fontSize: '0.875rem',
+            fontWeight: 'normal',
+            textTransform: 'uppercase',
+            letterSpacing: '0.05em',
+            marginBottom: '3rem',
+          }}
+        >
+          CART (0)
+        </h1>
+        <p style={{ marginBottom: '2rem' }}>Your cart is empty</p>
         <Link href="/">
-          <button style={{ padding: '0.75rem 1.5rem', marginTop: '1rem' }}>
-            Continue Shopping
+          <button
+            style={{
+              padding: '1rem 2rem',
+              backgroundColor: 'transparent',
+              border: '1px solid var(--foreground)',
+              fontSize: '0.75rem',
+              letterSpacing: '0.05em',
+              cursor: 'pointer',
+            }}
+          >
+            CONTINUE SHOPPING
           </button>
         </Link>
       </div>
@@ -21,23 +42,30 @@ export default function CartPage() {
   }
 
   return (
-    <div style={{ padding: '2rem', maxWidth: '1200px', margin: '0 auto' }}>
-      <h1>Shopping Cart</h1>
-      <p>You have {itemCount} item{itemCount !== 1 ? 's' : ''} in your cart</p>
+    <div style={{ padding: '3rem 4rem', minHeight: '60vh' }}>
+      <h1
+        style={{
+          fontSize: '0.875rem',
+          fontWeight: 'normal',
+          textTransform: 'uppercase',
+          letterSpacing: '0.05em',
+          marginBottom: '3rem',
+        }}
+      >
+        CART ({itemCount})
+      </h1>
 
-      <div style={{ marginTop: '2rem' }}>
+      <div style={{ marginBottom: '4rem' }}>
         {items.map((item) => (
           <div
             key={item.id}
             style={{
-              border: '1px solid #ddd',
-              borderRadius: '8px',
-              padding: '1rem',
-              marginBottom: '1rem',
               display: 'grid',
-              gridTemplateColumns: '150px 1fr auto',
-              gap: '1rem',
-              alignItems: 'center',
+              gridTemplateColumns: '150px 1fr',
+              gap: '2rem',
+              marginBottom: '3rem',
+              paddingBottom: '2rem',
+              borderBottom: '1px solid var(--border-color)',
             }}
           >
             <img
@@ -51,72 +79,84 @@ export default function CartPage() {
             />
 
             <div>
-              <h3 style={{ margin: '0 0 0.5rem 0' }}>
+              <h3
+                style={{
+                  margin: '0 0 0.5rem 0',
+                  fontSize: '0.875rem',
+                  fontWeight: 'normal',
+                  textTransform: 'uppercase',
+                }}
+              >
                 {item.brand} {item.name}
               </h3>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: '0.5rem' }}>
-                <strong>Color:</strong>
-                <div
-                  style={{
-                    width: '20px',
-                    height: '20px',
-                    borderRadius: '50%',
-                    backgroundColor: item.colorHexCode,
-                    border: '1px solid #ddd',
-                  }}
-                />
-                <span>{item.color}</span>
-              </div>
-              <p style={{ margin: '0.5rem 0' }}>
-                <strong>Storage:</strong> {item.storage}
+              <p style={{ margin: '0.25rem 0', fontSize: '0.875rem' }}>
+                {item.storage} | {item.color}
               </p>
-              <p style={{ margin: '0.5rem 0', fontSize: '1.25rem', fontWeight: 'bold' }}>
-                ${item.price}
+              <p style={{ margin: '0.75rem 0 1rem 0', fontSize: '0.875rem' }}>
+                {item.price} EUR
               </p>
+              <button
+                onClick={() => removeItem(item.id)}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: 'var(--error-color)',
+                  fontSize: '0.75rem',
+                  cursor: 'pointer',
+                  padding: 0,
+                  textDecoration: 'underline',
+                }}
+              >
+                Eliminar
+              </button>
             </div>
-
-            <button
-              onClick={() => removeItem(item.id)}
-              style={{
-                padding: '0.5rem 1rem',
-                backgroundColor: '#dc3545',
-                color: 'white',
-                border: 'none',
-                borderRadius: '4px',
-                cursor: 'pointer',
-              }}
-            >
-              Remove
-            </button>
           </div>
         ))}
       </div>
 
       <div
         style={{
-          marginTop: '2rem',
-          padding: '1.5rem',
-          border: '2px solid #ddd',
-          borderRadius: '8px',
-          backgroundColor: '#f9f9f9',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          paddingTop: '2rem',
+          borderTop: '2px solid var(--border-color)',
         }}
       >
-        <h2 style={{ margin: '0 0 1rem 0' }}>Total: ${totalPrice.toFixed(2)}</h2>
-        <div style={{ display: 'flex', gap: '1rem' }}>
-          <Link href="/">
-            <button
-              style={{
-                padding: '0.75rem 1.5rem',
-                backgroundColor: '#6c757d',
-                color: 'white',
-                border: 'none',
-                borderRadius: '4px',
-                cursor: 'pointer',
-              }}
-            >
-              Continue Shopping
-            </button>
-          </Link>
+        <Link href="/">
+          <button
+            style={{
+              padding: '1rem 2rem',
+              backgroundColor: 'transparent',
+              border: '1px solid var(--foreground)',
+              fontSize: '0.75rem',
+              letterSpacing: '0.05em',
+              cursor: 'pointer',
+            }}
+          >
+            CONTINUE SHOPPING
+          </button>
+        </Link>
+
+        <div style={{ display: 'flex', alignItems: 'center', gap: '3rem' }}>
+          <div style={{ fontSize: '0.875rem' }}>
+            <span style={{ marginRight: '2rem' }}>TOTAL</span>
+            <span style={{ fontWeight: 'bold' }}>{totalPrice.toFixed(0)} EUR</span>
+          </div>
+
+          <button
+            style={{
+              padding: '1rem 3rem',
+              backgroundColor: 'var(--foreground)',
+              color: 'white',
+              border: 'none',
+              fontSize: '0.75rem',
+              letterSpacing: '0.05em',
+              cursor: 'pointer',
+            }}
+          >
+            PAY
+          </button>
         </div>
       </div>
     </div>
