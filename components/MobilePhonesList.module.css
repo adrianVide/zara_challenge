@@ -20,4 +20,11 @@
   grid-template-columns: repeat(5, 1fr);
   gap: 0;
   margin-bottom: var(--spacing-xl);
+  border-left: 1px solid var(--border-color);
+  border-top: 1px solid var(--border-color);
+}
+
+.grid > * {
+  border-right: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
 }
