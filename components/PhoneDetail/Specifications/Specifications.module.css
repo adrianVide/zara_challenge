@@ -28,14 +28,14 @@
   letter-spacing: 0.05em;
 }
 
-@media (max-width: 834px) {
+@media (max-width: 1024px) {
   .specRow {
     grid-template-columns: 150px 1fr;
     gap: var(--spacing-md);
   }
 }
 
-@media (max-width: 393px) {
+@media (max-width: 768px) {
   .specRow {
     grid-template-columns: 1fr;
     gap: var(--spacing-xs);

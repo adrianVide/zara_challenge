@@ -4,7 +4,7 @@
   padding-right: var(--horizontal-padding);
 }
 
-@media (max-width: 834px) {
+@media (max-width: 1024px) {
   .container {
     padding: var(--page-padding);
     padding-left: var(--horizontal-padding);
@@ -12,7 +12,7 @@
   }
 }
 
-@media (max-width: 393px) {
+@media (max-width: 768px) {
   .container {
     padding: var(--page-padding);
     padding-left: var(--horizontal-padding);

@@ -46,18 +46,6 @@
   cursor: not-allowed;
 }
 
-.error {
-  color: var(--error-color);
-  padding: var(--spacing-lg);
-  text-align: center;
-}
-
-.errorLink {
-  display: inline-block;
-  margin-top: var(--spacing-md);
-  text-decoration: underline;
-}
-
 @media (max-width: 1024px) {
   .productDetail {
     grid-template-columns: 1fr;
@@ -69,7 +57,7 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 768px) { 
   .productDetail {
     grid-template-columns: 1fr;
     gap: var(--spacing-md);

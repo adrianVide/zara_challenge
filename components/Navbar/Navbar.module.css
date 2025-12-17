@@ -35,13 +35,13 @@
   height: 20px;
 }
 
-@media (max-width: 834px) {
+@media (max-width: 1024px) {
   .container {
     padding: 1rem var(--horizontal-padding);
   }
 }
 
-@media (max-width: 393px) {
+@media (max-width: 768px) {
   .container {
     padding: 1rem var(--horizontal-padding);
   }

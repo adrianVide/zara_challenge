@@ -28,12 +28,12 @@
   --max-app-width: 1920px;
 
   /* Breakpoints */
-  --tablet-breakpoint: 834px;
-  --mobile-breakpoint: 393px;
+  --tablet-breakpoint: 1024px;
+  --mobile-breakpoint: 768px;
 }
 
 /* Tablet styles */
-@media (max-width: 834px) {
+@media (max-width: 1024px) {
   :root {
     --horizontal-padding: 24px;
     --page-padding: 2rem 1.5rem;
@@ -41,7 +41,7 @@
 }
 
 /* Mobile styles */
-@media (max-width: 393px) {
+@media (max-width: 768px) {
   :root {
     --horizontal-padding: 16px;
     --page-padding: 1.5rem 1rem;

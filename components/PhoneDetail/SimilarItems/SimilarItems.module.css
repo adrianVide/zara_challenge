@@ -54,14 +54,14 @@
   border-bottom: 1px solid var(--border-color);
 }
 
-@media (max-width: 834px) {
+@media (max-width: 1024px) {
   .similarGrid > * {
     flex: 0 0 200px;
     min-width: 200px;
   }
 }
 
-@media (max-width: 393px) {
+@media (max-width: 768px) {
   .similarGrid > * {
     flex: 0 0 180px;
     min-width: 180px;

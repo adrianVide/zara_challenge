@@ -106,7 +106,7 @@
   cursor: pointer;
 }
 
-@media (max-width: 834px) {
+@media (max-width: 1024px) {
   .item {
     grid-template-columns: 120px 1fr;
     gap: var(--spacing-md);
@@ -135,7 +135,7 @@
   }
 }
 
-@media (max-width: 393px) {
+@media (max-width: 768px) {
   .item {
     grid-template-columns: 1fr;
     gap: var(--spacing-sm);
