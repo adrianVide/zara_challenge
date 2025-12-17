@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useCart } from '@/contexts/CartContext';
+import { LoadingBar } from '@/components/LoadingBar/LoadingBar';
 import styles from './Navbar.module.css';
 
 export function Navbar() {
@@ -38,6 +39,7 @@ export function Navbar() {
           <span>{itemCount}</span>
         </Link>
       </div>
+      <LoadingBar />
     </nav>
   );
 }

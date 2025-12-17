@@ -1,11 +1,10 @@
 .loadingBar {
-  position: fixed;
-  top: var(--navbar-height);
+  position: absolute;
+  bottom: 0;
   left: 0;
   right: 0;
   height: 2px;
   background-color: var(--border-color);
-  z-index: 9999;
   overflow: hidden;
 }
 
