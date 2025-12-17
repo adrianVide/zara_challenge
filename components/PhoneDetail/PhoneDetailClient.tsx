@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useCart } from "@/contexts/CartContext";
 import { BackButton } from "./BackButton/BackButton";
 import { ProductImage } from "./ProductImage/ProductImage";
@@ -18,9 +18,33 @@ interface PhoneDetailClientProps {
 
 export function PhoneDetailClient({ phone }: PhoneDetailClientProps) {
   const router = useRouter();
-  const [selectedColorIndex, setSelectedColorIndex] = useState<number | null>(null);
-  const [selectedStorageIndex, setSelectedStorageIndex] = useState<number | null>(null);
+  const searchParams = useSearchParams();
   const { addItem } = useCart();
+
+  const getInitialColorIndex = (): number | null => {
+    const colorParam = searchParams.get('color');
+    if (colorParam !== null) {
+      const index = parseInt(colorParam, 10);
+      if (!isNaN(index) && index >= 0 && index < phone.colorOptions.length) {
+        return index;
+      }
+    }
+    return null;
+  };
+
+  const getInitialStorageIndex = (): number | null => {
+    const storageParam = searchParams.get('storage');
+    if (storageParam !== null) {
+      const index = parseInt(storageParam, 10);
+      if (!isNaN(index) && index >= 0 && index < phone.storageOptions.length) {
+        return index;
+      }
+    }
+    return null;
+  };
+
+  const [selectedColorIndex, setSelectedColorIndex] = useState<number | null>(getInitialColorIndex);
+  const [selectedStorageIndex, setSelectedStorageIndex] = useState<number | null>(getInitialStorageIndex);
 
   const selectedColor = selectedColorIndex !== null ? phone.colorOptions[selectedColorIndex] : null;
   const selectedStorage = selectedStorageIndex !== null ? phone.storageOptions[selectedStorageIndex] : null;
@@ -36,6 +60,33 @@ export function PhoneDetailClient({ phone }: PhoneDetailClientProps) {
   const canAddToCart =
     (!hasColorOptions || selectedColor) &&
     (!hasStorageOptions || selectedStorage);
+
+  const updateURL = (colorIndex: number | null, storageIndex: number | null) => {
+    const params = new URLSearchParams();
+
+    if (colorIndex !== null) {
+      params.set('color', colorIndex.toString());
+    }
+
+    if (storageIndex !== null) {
+      params.set('storage', storageIndex.toString());
+    }
+
+    const queryString = params.toString();
+    const newUrl = queryString ? `?${queryString}` : '';
+
+    router.replace(`/phone/${phone.id}${newUrl}`, { scroll: false });
+  };
+
+  const handleColorSelect = (index: number) => {
+    setSelectedColorIndex(index);
+    updateURL(index, selectedStorageIndex);
+  };
+
+  const handleStorageSelect = (index: number) => {
+    setSelectedStorageIndex(index);
+    updateURL(selectedColorIndex, index);
+  };
 
   const handleAddToCart = () => {
     const cartItem: CartItem = {
@@ -77,13 +128,13 @@ export function PhoneDetailClient({ phone }: PhoneDetailClientProps) {
             <StorageSelector
               storageOptions={phone.storageOptions}
               selectedIndex={selectedStorageIndex}
-              onSelect={setSelectedStorageIndex}
+              onSelect={handleStorageSelect}
             />
 
             <ColorSelector
               colorOptions={phone.colorOptions}
               selectedIndex={selectedColorIndex}
-              onSelect={setSelectedColorIndex}
+              onSelect={handleColorSelect}
             />
 
             <button
