@@ -3,7 +3,7 @@ import styles from './ColorSelector.module.css';
 
 interface ColorSelectorProps {
   colorOptions: ColorOption[];
-  selectedIndex: number;
+  selectedIndex: number | null;
   onSelect: (index: number) => void;
 }
 
@@ -12,7 +12,7 @@ export function ColorSelector({ colorOptions, selectedIndex, onSelect }: ColorSe
     return null;
   }
 
-  const selectedColor = colorOptions[selectedIndex];
+  const selectedColor = selectedIndex !== null ? colorOptions[selectedIndex] : null;
 
   return (
     <div className={styles.selector}>
@@ -32,7 +32,7 @@ export function ColorSelector({ colorOptions, selectedIndex, onSelect }: ColorSe
           />
         ))}
       </div>
-      <div className={styles.colorName}>{selectedColor?.name}</div>
+      <div className={styles.colorName}>{selectedColor?.name || ''}</div>
     </div>
   );
 }

@@ -3,7 +3,7 @@ import styles from './StorageSelector.module.css';
 
 interface StorageSelectorProps {
   storageOptions: StorageOption[];
-  selectedIndex: number;
+  selectedIndex: number | null;
   onSelect: (index: number) => void;
 }
 

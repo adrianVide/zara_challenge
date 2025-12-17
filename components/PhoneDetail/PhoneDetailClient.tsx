@@ -18,17 +18,21 @@ interface PhoneDetailClientProps {
 
 export function PhoneDetailClient({ phone }: PhoneDetailClientProps) {
   const router = useRouter();
-  const [selectedColorIndex, setSelectedColorIndex] = useState(0);
-  const [selectedStorageIndex, setSelectedStorageIndex] = useState(0);
+  const [selectedColorIndex, setSelectedColorIndex] = useState<number | null>(null);
+  const [selectedStorageIndex, setSelectedStorageIndex] = useState<number | null>(null);
   const { addItem } = useCart();
 
-  const selectedColor = phone.colorOptions[selectedColorIndex];
-  const selectedStorage = phone.storageOptions[selectedStorageIndex];
+  const selectedColor = selectedColorIndex !== null ? phone.colorOptions[selectedColorIndex] : null;
+  const selectedStorage = selectedStorageIndex !== null ? phone.storageOptions[selectedStorageIndex] : null;
   const currentPrice = selectedStorage?.price || phone.basePrice;
 
   const hasColorOptions = phone.colorOptions && phone.colorOptions.length > 0;
   const hasStorageOptions =
     phone.storageOptions && phone.storageOptions.length > 0;
+
+  const priceDisplay = hasStorageOptions && selectedStorageIndex === null
+    ? `From ${currentPrice} EUR`
+    : `${currentPrice} EUR`;
   const canAddToCart =
     (!hasColorOptions || selectedColor) &&
     (!hasStorageOptions || selectedStorage);
@@ -58,7 +62,7 @@ export function PhoneDetailClient({ phone }: PhoneDetailClientProps) {
       <div className={styles.container}>
         <div className={styles.productDetail}>
           <ProductImage
-            imageUrl={selectedColor?.imageUrl || phone.colorOptions[0]?.imageUrl}
+            imageUrl={selectedColor?.imageUrl || (phone.colorOptions.length > 0 ? phone.colorOptions[0]?.imageUrl : '')}
             brand={phone.brand}
             name={phone.name}
           />
@@ -68,7 +72,7 @@ export function PhoneDetailClient({ phone }: PhoneDetailClientProps) {
               {phone.brand} {phone.name}
             </h1>
 
-            <p className={styles.price}>{currentPrice} EUR</p>
+            <p className={styles.price}>{priceDisplay}</p>
 
             <StorageSelector
               storageOptions={phone.storageOptions}
