@@ -34,3 +34,24 @@
   width: 20px;
   height: 20px;
 }
+
+@media (max-width: 834px) {
+  .container {
+    padding: 1rem var(--horizontal-padding);
+  }
+}
+
+@media (max-width: 393px) {
+  .container {
+    padding: 1rem var(--horizontal-padding);
+  }
+
+  .logoImage {
+    height: 18px;
+  }
+
+  .cartIcon {
+    width: 18px;
+    height: 18px;
+  }
+}

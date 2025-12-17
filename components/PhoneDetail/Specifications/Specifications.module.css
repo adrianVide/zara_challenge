@@ -27,3 +27,25 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
+
+@media (max-width: 834px) {
+  .specRow {
+    grid-template-columns: 150px 1fr;
+    gap: var(--spacing-md);
+  }
+}
+
+@media (max-width: 393px) {
+  .specRow {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xs);
+  }
+
+  .specLabel {
+    font-size: var(--font-size-sm);
+  }
+
+  .specifications {
+    margin-bottom: var(--spacing-xl);
+  }
+}

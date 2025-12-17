@@ -24,3 +24,14 @@
 .pageNumber {
   font-size: var(--font-size-sm);
 }
+
+@media (max-width: 393px) {
+  .button {
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: var(--font-size-xs);
+  }
+
+  .container {
+    gap: var(--spacing-sm);
+  }
+}

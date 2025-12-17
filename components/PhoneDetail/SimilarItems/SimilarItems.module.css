@@ -53,3 +53,17 @@
   border-right: 1px solid var(--border-color);
   border-bottom: 1px solid var(--border-color);
 }
+
+@media (max-width: 834px) {
+  .similarGrid > * {
+    flex: 0 0 200px;
+    min-width: 200px;
+  }
+}
+
+@media (max-width: 393px) {
+  .similarGrid > * {
+    flex: 0 0 180px;
+    min-width: 180px;
+  }
+}

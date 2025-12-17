@@ -26,6 +26,26 @@
   --navbar-height: 61px;
   --horizontal-padding: 100px;
   --max-app-width: 1920px;
+
+  /* Breakpoints */
+  --tablet-breakpoint: 834px;
+  --mobile-breakpoint: 393px;
+}
+
+/* Tablet styles */
+@media (max-width: 834px) {
+  :root {
+    --horizontal-padding: 24px;
+    --page-padding: 2rem 1.5rem;
+  }
+}
+
+/* Mobile styles */
+@media (max-width: 393px) {
+  :root {
+    --horizontal-padding: 16px;
+    --page-padding: 1.5rem 1rem;
+  }
 }
 
 html,

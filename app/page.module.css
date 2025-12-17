@@ -3,3 +3,19 @@
   padding-left: var(--horizontal-padding);
   padding-right: var(--horizontal-padding);
 }
+
+@media (max-width: 834px) {
+  .container {
+    padding: var(--page-padding);
+    padding-left: var(--horizontal-padding);
+    padding-right: var(--horizontal-padding);
+  }
+}
+
+@media (max-width: 393px) {
+  .container {
+    padding: var(--page-padding);
+    padding-left: var(--horizontal-padding);
+    padding-right: var(--horizontal-padding);
+  }
+}

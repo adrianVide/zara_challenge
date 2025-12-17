@@ -45,3 +45,29 @@
   background-color: #ccc;
   cursor: not-allowed;
 }
+
+@media (max-width: 834px) {
+  .productDetail {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+  }
+
+  .container {
+    padding: var(--page-padding);
+  }
+}
+
+@media (max-width: 393px) {
+  .productDetail {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+  }
+
+  .container {
+    padding: var(--page-padding);
+  }
+
+  .title {
+    font-size: var(--font-size-md);
+  }
+}

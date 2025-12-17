@@ -12,3 +12,10 @@
   background-color: transparent;
   font-family: Helvetica, Arial, sans-serif;
 }
+
+@media (max-width: 393px) {
+  .input {
+    font-size: var(--font-size-sm);
+    padding: 0.5rem 0;
+  }
+}
