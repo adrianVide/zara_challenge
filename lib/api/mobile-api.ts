@@ -14,11 +14,16 @@ export class MobileApiError extends Error {
   }
 }
 
-async function fetchWithAuth(endpoint: string, options: RequestInit = {}) {
+async function fetchWithAuth(
+  endpoint: string,
+  options: RequestInit = {},
+  revalidate?: number
+) {
   const url = `${API_BASE_URL}${endpoint}`;
 
   const response = await fetch(url, {
     ...options,
+    ...(revalidate !== undefined && { next: { revalidate } }),
     headers: {
       'x-api-key': API_KEY,
       'Content-Type': 'application/json',
@@ -61,7 +66,7 @@ export async function getMobilePhones(params?: GetMobilePhonesParams): Promise<M
     const queryString = queryParams.toString();
     const endpoint = queryString ? `/products?${queryString}` : '/products';
 
-    const data = await fetchWithAuth(endpoint);
+    const data = await fetchWithAuth(endpoint, {}, 60);
     return data;
   } catch (error) {
     console.error('Error fetching mobile phones:', error);
