@@ -21,25 +21,36 @@ const originalWarn = console.warn;
 
 beforeAll(() => {
   console.error = (...args: any[]) => {
-    // Suppress React act warnings
+    const message = args[0]?.toString() || '';
+
+    // Only suppress React act warnings and expected errors from tests
     if (
-      typeof args[0] === 'string' &&
-      (args[0].includes('act(') ||
-        args[0].includes('was not wrapped in act') ||
-        args[0].includes('Warning: An update to'))
+      message.includes('act(') ||
+      message.includes('was not wrapped in act') ||
+      message.includes('Warning: An update to') ||
+      message.includes('Error fetching mobile') ||
+      message.includes('Error in PhoneDetail page') ||
+      message.includes('Error in Home page')
     ) {
       return;
     }
+
+    originalError.apply(console, args);
   };
 
   console.warn = (...args: any[]) => {
-    return;
-  };
-});
+    const message = args[0]?.toString() || '';
 
-// Suppress console errors in tests to avoid noise from expected errors
-beforeEach(() => {
-  vi.spyOn(console, 'error').mockImplementation(() => {});
+    if (
+      message.includes('act(') ||
+      message.includes('ReactDOM.render') ||
+      message.includes('useLayoutEffect')
+    ) {
+      return;
+    }
+
+    originalWarn.apply(console, args);
+  };
 });
 
 // Cleanup after each test
@@ -77,10 +88,26 @@ vi.mock('next/link', () => ({
 
 // Mock next/navigation
 vi.mock('next/navigation', () => ({
-  useRouter: vi.fn(),
-  useSearchParams: vi.fn(),
-  useParams: vi.fn(),
-  usePathname: vi.fn(),
+  useRouter: vi.fn(() => ({
+    push: vi.fn(),
+    replace: vi.fn(),
+    refresh: vi.fn(),
+    back: vi.fn(),
+    forward: vi.fn(),
+    prefetch: vi.fn(),
+  })),
+  useSearchParams: vi.fn(() => ({
+    get: vi.fn(() => null),
+    getAll: vi.fn(() => []),
+    has: vi.fn(() => false),
+    keys: vi.fn(() => []),
+    values: vi.fn(() => []),
+    entries: vi.fn(() => []),
+    forEach: vi.fn(),
+    toString: vi.fn(() => ''),
+  })),
+  useParams: vi.fn(() => ({})),
+  usePathname: vi.fn(() => '/'),
   redirect: vi.fn(),
 }));
 
