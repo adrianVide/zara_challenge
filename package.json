@@ -4,9 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "prebuild": "npm run check-all",
     "build": "next build",
-    "build:skip-checks": "next build",
+    "build:with-checks": "npm run check-all && next build",
     "start": "next start",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",

@@ -1,57 +1,7 @@
 import '@testing-library/jest-dom';
 import { cleanup } from '@testing-library/react';
-import { afterEach, beforeAll, beforeEach, vi } from 'vitest';
+import { afterEach, vi } from 'vitest';
 import React from 'react';
-
-// Mock React.act for React 19 compatibility
-if (!React.act) {
-  // @ts-expect-error - Adding act polyfill for React 19
-  React.act = (callback: () => void | Promise<void>) => {
-    const result = callback();
-    if (result && typeof result.then === 'function') {
-      return result;
-    }
-    return Promise.resolve();
-  };
-}
-
-// Suppress console errors and warnings in tests
-const originalError = console.error;
-const originalWarn = console.warn;
-
-beforeAll(() => {
-  console.error = (...args: any[]) => {
-    const message = args[0]?.toString() || '';
-
-    // Only suppress React act warnings and expected errors from tests
-    if (
-      message.includes('act(') ||
-      message.includes('was not wrapped in act') ||
-      message.includes('Warning: An update to') ||
-      message.includes('Error fetching mobile') ||
-      message.includes('Error in PhoneDetail page') ||
-      message.includes('Error in Home page')
-    ) {
-      return;
-    }
-
-    originalError.apply(console, args);
-  };
-
-  console.warn = (...args: any[]) => {
-    const message = args[0]?.toString() || '';
-
-    if (
-      message.includes('act(') ||
-      message.includes('ReactDOM.render') ||
-      message.includes('useLayoutEffect')
-    ) {
-      return;
-    }
-
-    originalWarn.apply(console, args);
-  };
-});
 
 // Cleanup after each test
 afterEach(() => {
