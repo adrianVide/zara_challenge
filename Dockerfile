@@ -8,12 +8,23 @@ WORKDIR /app
 # Copy package files
 COPY package.json package-lock.json ./
 
-# Install ALL dependencies (production + development)
-# npm ci installs everything by default unless NODE_ENV=production
-RUN npm ci
+# Cache bust and install ALL dependencies (production + development)
+# This ARG invalidates the cache to ensure fresh install
+ARG CACHEBUST=1
+RUN echo "Cache bust: ${CACHEBUST}" && \
+    npm ci --legacy-peer-deps && \
+    echo "Installed packages:" && \
+    ls -la node_modules/.bin/ | head -20
 
 # Verify critical dev dependencies are present
-RUN test -f node_modules/.bin/prettier && test -f node_modules/.bin/eslint && echo "✅ Dev dependencies installed successfully" || (echo "❌ ERROR: Dev dependencies not found!" && exit 1)
+RUN if [ ! -f node_modules/.bin/prettier ] || [ ! -f node_modules/.bin/eslint ]; then \
+      echo "❌ ERROR: Dev dependencies not found!"; \
+      echo "Contents of node_modules/.bin/:"; \
+      ls -la node_modules/.bin/ || echo "Directory does not exist"; \
+      exit 1; \
+    else \
+      echo "✅ Dev dependencies installed successfully"; \
+    fi
 
 # Stage 2: Builder
 FROM node:20-alpine AS builder
