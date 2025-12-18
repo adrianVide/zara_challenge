@@ -10,10 +10,9 @@ RUN npm install -g npm@9.9.4
 
 WORKDIR /app
 COPY package.json ./
-COPY package-lock.json . 2>/dev/null || true
+COPY package-lock.json* ./
 
 RUN npm install --legacy-peer-deps
-
 
 ############################
 # Stage 2: Builder
