@@ -35,7 +35,9 @@
 
 .colorButton.selected {
   border: 3px solid var(--foreground);
-  box-shadow: 0 0 0 1px var(--background), 0 0 0 4px var(--foreground);
+  box-shadow:
+    0 0 0 1px var(--background),
+    0 0 0 4px var(--foreground);
 }
 
 .checkmark {

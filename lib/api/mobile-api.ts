@@ -49,7 +49,9 @@ export interface GetMobilePhonesParams {
   offset?: number;
 }
 
-export async function getMobilePhones(params?: GetMobilePhonesParams): Promise<MobilePhone[]> {
+export async function getMobilePhones(
+  params?: GetMobilePhonesParams
+): Promise<MobilePhone[]> {
   try {
     const queryParams = new URLSearchParams();
 

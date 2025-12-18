@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { useEffect } from "react";
-import { useCart } from "@/contexts/CartContext";
-import styles from "./page.module.css";
+import Link from 'next/link';
+import { useEffect } from 'react';
+import { useCart } from '@/contexts/CartContext';
+import styles from './page.module.css';
 
 export default function CartPage() {
   const { items, removeItem, totalPrice, itemCount } = useCart();

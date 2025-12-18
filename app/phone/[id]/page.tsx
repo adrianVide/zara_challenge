@@ -1,19 +1,19 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
-import { getMobilePhoneById } from "@/lib/api/mobile-api";
-import type { ProductDetail, CartItem } from "@/types/mobile";
-import Link from "next/link";
-import { useLoading } from "@/contexts/LoadingContext";
-import { useCart } from "@/contexts/CartContext";
-import { BackButton } from "@/components/PhoneDetail/BackButton/BackButton";
-import { ProductImage } from "@/components/PhoneDetail/ProductImage/ProductImage";
-import { StorageSelector } from "@/components/PhoneDetail/StorageSelector/StorageSelector";
-import { ColorSelector } from "@/components/PhoneDetail/ColorSelector/ColorSelector";
-import { Specifications } from "@/components/PhoneDetail/Specifications/Specifications";
-import { SimilarItems } from "@/components/PhoneDetail/SimilarItems/SimilarItems";
-import styles from "./page.module.css";
+import { useEffect, useState } from 'react';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
+import { getMobilePhoneById } from '@/lib/api/mobile-api';
+import type { ProductDetail, CartItem } from '@/types/mobile';
+import Link from 'next/link';
+import { useLoading } from '@/contexts/LoadingContext';
+import { useCart } from '@/contexts/CartContext';
+import { BackButton } from '@/components/PhoneDetail/BackButton/BackButton';
+import { ProductImage } from '@/components/PhoneDetail/ProductImage/ProductImage';
+import { StorageSelector } from '@/components/PhoneDetail/StorageSelector/StorageSelector';
+import { ColorSelector } from '@/components/PhoneDetail/ColorSelector/ColorSelector';
+import { Specifications } from '@/components/PhoneDetail/Specifications/Specifications';
+import { SimilarItems } from '@/components/PhoneDetail/SimilarItems/SimilarItems';
+import styles from './page.module.css';
 
 export default function PhoneDetail() {
   const params = useParams();
@@ -27,7 +27,7 @@ export default function PhoneDetail() {
 
   const getInitialColorIndex = (): number | null => {
     if (!phone) return null;
-    const colorParam = searchParams.get("color");
+    const colorParam = searchParams.get('color');
     if (colorParam !== null) {
       const index = parseInt(colorParam, 10);
       if (!isNaN(index) && index >= 0 && index < phone.colorOptions.length) {
@@ -39,7 +39,7 @@ export default function PhoneDetail() {
 
   const getInitialStorageIndex = (): number | null => {
     if (!phone) return null;
-    const storageParam = searchParams.get("storage");
+    const storageParam = searchParams.get('storage');
     if (storageParam !== null) {
       const index = parseInt(storageParam, 10);
       if (!isNaN(index) && index >= 0 && index < phone.storageOptions.length) {
@@ -65,9 +65,9 @@ export default function PhoneDetail() {
         setError(null);
       } catch (err) {
         setError(
-          err instanceof Error ? err.message : "Failed to fetch phone details"
+          err instanceof Error ? err.message : 'Failed to fetch phone details'
         );
-        console.error("Error in PhoneDetail page:", err);
+        console.error('Error in PhoneDetail page:', err);
       } finally {
         setIsLoading(false);
       }
@@ -94,7 +94,7 @@ export default function PhoneDetail() {
     return (
       <div className={styles.container}>
         <div className={styles.error} role="alert" aria-live="assertive">
-          <strong>Error:</strong> {error || "Phone not found"}
+          <strong>Error:</strong> {error || 'Phone not found'}
         </div>
         <Link href="/" className={styles.errorLink}>
           Go back to home
@@ -130,15 +130,15 @@ export default function PhoneDetail() {
     const params = new URLSearchParams();
 
     if (colorIndex !== null) {
-      params.set("color", colorIndex.toString());
+      params.set('color', colorIndex.toString());
     }
 
     if (storageIndex !== null) {
-      params.set("storage", storageIndex.toString());
+      params.set('storage', storageIndex.toString());
     }
 
     const queryString = params.toString();
-    const newUrl = queryString ? `?${queryString}` : "";
+    const newUrl = queryString ? `?${queryString}` : '';
 
     router.replace(`/phone/${phone.id}${newUrl}`, { scroll: false });
   };
@@ -155,21 +155,21 @@ export default function PhoneDetail() {
 
   const handleAddToCart = () => {
     const cartItem: CartItem = {
-      id: `${phone.id}-${selectedColor?.name || "default"}-${
-        selectedStorage?.capacity || "default"
+      id: `${phone.id}-${selectedColor?.name || 'default'}-${
+        selectedStorage?.capacity || 'default'
       }-${Date.now()}`,
       productId: phone.id,
       brand: phone.brand,
       name: phone.name,
-      color: selectedColor?.name || "Default",
-      colorHexCode: selectedColor?.hexCode || "#000000",
-      storage: selectedStorage?.capacity || "Standard",
+      color: selectedColor?.name || 'Default',
+      colorHexCode: selectedColor?.hexCode || '#000000',
+      storage: selectedStorage?.capacity || 'Standard',
       price: currentPrice,
       imageUrl:
-        selectedColor?.imageUrl || phone.colorOptions[0]?.imageUrl || "",
+        selectedColor?.imageUrl || phone.colorOptions[0]?.imageUrl || '',
     };
     addItem(cartItem);
-    router.push("/cart");
+    router.push('/cart');
   };
 
   return (
@@ -182,7 +182,7 @@ export default function PhoneDetail() {
               selectedColor?.imageUrl ||
               (phone.colorOptions.length > 0
                 ? phone.colorOptions[0]?.imageUrl
-                : "")
+                : '')
             }
             brand={phone.brand}
             name={phone.name}
@@ -216,8 +216,8 @@ export default function PhoneDetail() {
               type="button"
               aria-label={
                 canAddToCart
-                  ? "Add to cart"
-                  : "Please select all required options to add to cart"
+                  ? 'Add to cart'
+                  : 'Please select all required options to add to cart'
               }
               aria-disabled={!canAddToCart}
             >

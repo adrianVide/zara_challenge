@@ -15,7 +15,9 @@
   font-size: var(--font-size-sm);
   letter-spacing: 0.05em;
   cursor: pointer;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .button:hover:not(:disabled) {

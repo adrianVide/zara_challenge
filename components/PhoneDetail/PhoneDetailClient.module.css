@@ -57,7 +57,7 @@
   }
 }
 
-@media (max-width: 768px) { 
+@media (max-width: 768px) {
   .productDetail {
     grid-template-columns: 1fr;
     gap: var(--spacing-md);

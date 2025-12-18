@@ -1,9 +1,9 @@
-import { getMobilePhones } from "@/lib/api/mobile-api";
-import type { MobilePhone } from "@/types/mobile";
-import { MobilePhonesProvider } from "@/contexts/MobilePhonesContext";
-import { MobilePhonesList } from "@/components/MobilePhonesList/MobilePhonesList";
-import { Pagination } from "@/components/Pagination/Pagination";
-import { SearchBar } from "@/components/SearchBar/SearchBar";
+import { getMobilePhones } from '@/lib/api/mobile-api';
+import type { MobilePhone } from '@/types/mobile';
+import { MobilePhonesProvider } from '@/contexts/MobilePhonesContext';
+import { MobilePhonesList } from '@/components/MobilePhonesList/MobilePhonesList';
+import { Pagination } from '@/components/Pagination/Pagination';
+import { SearchBar } from '@/components/SearchBar/SearchBar';
 import styles from './page.module.css';
 
 export const revalidate = 60;
@@ -77,8 +77,8 @@ export default async function Home({ searchParams }: HomeProps) {
     mobilePhones = await fetchUniquePhones(ITEMS_PER_PAGE, offset, searchQuery);
   } catch (err) {
     error =
-      err instanceof Error ? err.message : "Failed to fetch mobile phones";
-    console.error("Error in Home page:", err);
+      err instanceof Error ? err.message : 'Failed to fetch mobile phones';
+    console.error('Error in Home page:', err);
   }
 
   return (

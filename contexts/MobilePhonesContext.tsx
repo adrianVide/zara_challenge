@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { createContext, useContext, useState, type ReactNode } from "react";
-import type { MobilePhone } from "@/types/mobile";
+import { createContext, useContext, useState, type ReactNode } from 'react';
+import type { MobilePhone } from '@/types/mobile';
 
 interface MobilePhonesContextValue {
   mobilePhones: MobilePhone[];
@@ -32,27 +32,31 @@ export function MobilePhonesProvider({
   searchQuery = '',
 }: MobilePhonesProviderProps) {
   const deduplicatedInitialData = Array.from(
-    new Map(initialData.map(phone => [phone.id, phone])).values()
+    new Map(initialData.map((phone) => [phone.id, phone])).values()
   );
 
-  const [allPhones, setAllPhones] = useState<MobilePhone[]>(deduplicatedInitialData);
+  const [allPhones, setAllPhones] = useState<MobilePhone[]>(
+    deduplicatedInitialData
+  );
   const [prevSearchQuery, setPrevSearchQuery] = useState(searchQuery);
   const [processedIds, setProcessedIds] = useState<Set<string>>(
-    new Set(deduplicatedInitialData.map(p => p.id))
+    new Set(deduplicatedInitialData.map((p) => p.id))
   );
 
   if (searchQuery !== prevSearchQuery) {
     setPrevSearchQuery(searchQuery);
     setAllPhones(deduplicatedInitialData);
-    setProcessedIds(new Set(deduplicatedInitialData.map(p => p.id)));
+    setProcessedIds(new Set(deduplicatedInitialData.map((p) => p.id)));
   } else {
-    const newPhones = initialData.filter((phone) => !processedIds.has(phone.id));
+    const newPhones = initialData.filter(
+      (phone) => !processedIds.has(phone.id)
+    );
 
     if (newPhones.length > 0) {
       setAllPhones([...allPhones, ...newPhones]);
-      setProcessedIds(prev => {
+      setProcessedIds((prev) => {
         const newSet = new Set(prev);
-        newPhones.forEach(phone => newSet.add(phone.id));
+        newPhones.forEach((phone) => newSet.add(phone.id));
         return newSet;
       });
     }
@@ -77,7 +81,7 @@ export function useMobilePhones(): MobilePhonesContextValue {
 
   if (context === undefined) {
     throw new Error(
-      "useMobilePhones must be used within a MobilePhonesProvider"
+      'useMobilePhones must be used within a MobilePhonesProvider'
     );
   }
 

@@ -23,7 +23,13 @@ COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
 
-# Build the application
+# Run quality checks before building
+RUN echo "Running code quality checks..." && \
+    npm run format:check && \
+    npm run lint && \
+    npm run type-check
+
+# Build the application (prebuild hook also runs checks, but explicit is better)
 RUN npm run build
 
 # Stage 3: Runner

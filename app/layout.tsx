@@ -1,31 +1,32 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import { CartProvider } from "@/contexts/CartContext";
-import { LoadingProvider } from "@/contexts/LoadingContext";
-import { Navbar } from "@/components/Navbar/Navbar";
+import type { Metadata } from 'next';
+import { Geist, Geist_Mono } from 'next/font/google';
+import './globals.css';
+import { CartProvider } from '@/contexts/CartContext';
+import { LoadingProvider } from '@/contexts/LoadingContext';
+import { Navbar } from '@/components/Navbar/Navbar';
 
 const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+  variable: '--font-geist-sans',
+  subsets: ['latin'],
 });
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  variable: '--font-geist-mono',
+  subsets: ['latin'],
 });
 
 export const metadata: Metadata = {
   title: {
-    template: "%s | MBST Mobile Phones",
-    default: "MBST Mobile Phones - Browse and Shop Smartphones",
+    template: '%s | MBST Mobile Phones',
+    default: 'MBST Mobile Phones - Browse and Shop Smartphones',
   },
-  description: "Browse and shop the latest mobile phones and smartphones. Find the perfect device with detailed specifications and competitive prices.",
-  themeColor: "#000000",
+  description:
+    'Browse and shop the latest mobile phones and smartphones. Find the perfect device with detailed specifications and competitive prices.',
+  themeColor: '#000000',
 };
 
 export const viewport = {
-  width: "device-width",
+  width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
 };
@@ -44,9 +45,7 @@ export default function RootLayout({
         <LoadingProvider>
           <CartProvider>
             <Navbar />
-            <main id="main-content">
-              {children}
-            </main>
+            <main id="main-content">{children}</main>
           </CartProvider>
         </LoadingProvider>
       </body>

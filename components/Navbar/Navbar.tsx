@@ -14,11 +14,7 @@ export function Navbar() {
         <div className={styles.container}>
           {/* Logo */}
           <Link href="/" className={styles.logo} aria-label="MBST Home">
-            <img
-              src="/logo.svg"
-              alt="MBST"
-              className={styles.logoImage}
-            />
+            <img src="/logo.svg" alt="MBST" className={styles.logoImage} />
           </Link>
 
           {/* Cart Icon */}

@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useRouter, useSearchParams } from "next/navigation";
-import { useMobilePhones } from "@/contexts/MobilePhonesContext";
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useMobilePhones } from '@/contexts/MobilePhonesContext';
 import styles from './Pagination.module.css';
 
 interface PaginationProps {
@@ -16,25 +16,30 @@ export function Pagination({ currentPage, itemsPerPage }: PaginationProps) {
 
   const endIndex = currentPage * itemsPerPage;
   const hasItemsInContextForNextPage = mobilePhones.length > endIndex;
-  const lastFetchWasFull = mobilePhones.length % itemsPerPage === 0 && mobilePhones.length > 0;
+  const lastFetchWasFull =
+    mobilePhones.length % itemsPerPage === 0 && mobilePhones.length > 0;
   const hasNextPage = hasItemsInContextForNextPage || lastFetchWasFull;
   const hasPreviousPage = currentPage > 1;
 
   const navigateToPage = (page: number) => {
     const params = new URLSearchParams(searchParams.toString());
     if (page === 1) {
-      params.delete("page");
+      params.delete('page');
     } else {
-      params.set("page", page.toString());
+      params.set('page', page.toString());
     }
 
     const queryString = params.toString();
-    const url = queryString ? `/?${queryString}` : "/";
+    const url = queryString ? `/?${queryString}` : '/';
     router.push(url);
   };
 
   return (
-    <nav className={styles.container} role="navigation" aria-label="Product list pagination">
+    <nav
+      className={styles.container}
+      role="navigation"
+      aria-label="Product list pagination"
+    >
       <button
         onClick={() => navigateToPage(currentPage - 1)}
         disabled={!hasPreviousPage}
@@ -45,7 +50,11 @@ export function Pagination({ currentPage, itemsPerPage }: PaginationProps) {
         PREVIOUS
       </button>
 
-      <span className={styles.pageNumber} aria-current="page" aria-label={`Current page, page ${currentPage}`}>
+      <span
+        className={styles.pageNumber}
+        aria-current="page"
+        aria-label={`Current page, page ${currentPage}`}
+      >
         PAGE {currentPage}
       </span>
 

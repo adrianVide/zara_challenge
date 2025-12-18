@@ -7,7 +7,11 @@ interface StorageSelectorProps {
   onSelect: (index: number) => void;
 }
 
-export function StorageSelector({ storageOptions, selectedIndex, onSelect }: StorageSelectorProps) {
+export function StorageSelector({
+  storageOptions,
+  selectedIndex,
+  onSelect,
+}: StorageSelectorProps) {
   if (!storageOptions || storageOptions.length === 0) {
     return null;
   }

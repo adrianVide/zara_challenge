@@ -20,7 +20,7 @@ export function MobilePhonesList() {
   const slicedPhones = mobilePhones.slice(startIndex, endIndex);
 
   const uniquePhones = Array.from(
-    new Map(slicedPhones.map(phone => [phone.id, phone])).values()
+    new Map(slicedPhones.map((phone) => [phone.id, phone])).values()
   );
 
   if (uniquePhones.length === 0) {
@@ -33,9 +33,7 @@ export function MobilePhonesList() {
 
   return (
     <div>
-      <div className={styles.resultsCount}>
-        {uniquePhones.length} RESULTS
-      </div>
+      <div className={styles.resultsCount}>{uniquePhones.length} RESULTS</div>
       <div className={styles.grid}>
         {uniquePhones.map((phone) => (
           <ProductCard

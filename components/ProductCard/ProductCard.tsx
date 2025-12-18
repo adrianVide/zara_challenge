@@ -12,7 +12,13 @@ interface ProductCardProps {
   imageUrl: string;
 }
 
-export function ProductCard({ id, brand, name, price, imageUrl }: ProductCardProps) {
+export function ProductCard({
+  id,
+  brand,
+  name,
+  price,
+  imageUrl,
+}: ProductCardProps) {
   return (
     <Link href={`/phone/${id}`} className={styles.card}>
       <div className={styles.imageContainer}>

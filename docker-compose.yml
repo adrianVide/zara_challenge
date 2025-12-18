@@ -10,4 +10,12 @@ services:
     environment:
       - NODE_ENV=production
       - PORT=3060
+      - NEXT_TELEMETRY_DISABLED=1
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3060/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+

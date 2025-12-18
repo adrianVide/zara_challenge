@@ -7,19 +7,28 @@ interface ColorSelectorProps {
   onSelect: (index: number) => void;
 }
 
-export function ColorSelector({ colorOptions, selectedIndex, onSelect }: ColorSelectorProps) {
+export function ColorSelector({
+  colorOptions,
+  selectedIndex,
+  onSelect,
+}: ColorSelectorProps) {
   if (!colorOptions || colorOptions.length === 0) {
     return null;
   }
 
-  const selectedColor = selectedIndex !== null ? colorOptions[selectedIndex] : null;
+  const selectedColor =
+    selectedIndex !== null ? colorOptions[selectedIndex] : null;
 
   return (
     <div className={styles.selector}>
       <div className={styles.selectorLabel} id="color-selector-label">
         COLOR. PICK YOUR FAVOURITE.
       </div>
-      <div className={styles.colorOptions} role="group" aria-labelledby="color-selector-label">
+      <div
+        className={styles.colorOptions}
+        role="group"
+        aria-labelledby="color-selector-label"
+      >
         {colorOptions.map((color, index) => (
           <button
             key={index}
