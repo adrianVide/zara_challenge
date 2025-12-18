@@ -8,12 +8,12 @@ WORKDIR /app
 # Copy package files
 COPY package.json package-lock.json ./
 
-# Install ALL dependencies (including devDependencies)
-# Explicitly set NODE_ENV to ensure devDependencies are installed
-RUN NODE_ENV=development npm ci --prefer-offline false
+# Install ALL dependencies (production + development)
+# npm ci installs everything by default unless NODE_ENV=production
+RUN npm ci
 
-# Verify devDependencies are installed
-RUN ls -la node_modules/.bin/ | grep -E "(prettier|eslint)" || (echo "ERROR: Dev dependencies not installed!" && exit 1)
+# Verify critical dev dependencies are present
+RUN test -f node_modules/.bin/prettier && test -f node_modules/.bin/eslint && echo "✅ Dev dependencies installed successfully" || (echo "❌ ERROR: Dev dependencies not found!" && exit 1)
 
 # Stage 2: Builder
 FROM node:20-alpine AS builder
