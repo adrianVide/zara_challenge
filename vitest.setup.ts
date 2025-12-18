@@ -1,7 +1,41 @@
 import '@testing-library/jest-dom';
 import { cleanup } from '@testing-library/react';
-import { afterEach, beforeEach, vi } from 'vitest';
+import { afterEach, beforeAll, beforeEach, vi } from 'vitest';
 import React from 'react';
+
+// Mock React.act for React 19 compatibility
+if (!React.act) {
+  // @ts-expect-error - Adding act polyfill for React 19
+  React.act = (callback: () => void | Promise<void>) => {
+    const result = callback();
+    if (result && typeof result.then === 'function') {
+      return result;
+    }
+    return Promise.resolve();
+  };
+}
+
+// Suppress console errors and warnings in tests
+const originalError = console.error;
+const originalWarn = console.warn;
+
+beforeAll(() => {
+  console.error = (...args: any[]) => {
+    // Suppress React act warnings
+    if (
+      typeof args[0] === 'string' &&
+      (args[0].includes('act(') ||
+        args[0].includes('was not wrapped in act') ||
+        args[0].includes('Warning: An update to'))
+    ) {
+      return;
+    }
+  };
+
+  console.warn = (...args: any[]) => {
+    return;
+  };
+});
 
 // Suppress console errors in tests to avoid noise from expected errors
 beforeEach(() => {
