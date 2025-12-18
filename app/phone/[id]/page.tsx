@@ -25,30 +25,6 @@ export default function PhoneDetail() {
   const { setIsLoading } = useLoading();
   const { addItem } = useCart();
 
-  const getInitialColorIndex = (): number | null => {
-    if (!phone) return null;
-    const colorParam = searchParams.get('color');
-    if (colorParam !== null) {
-      const index = parseInt(colorParam, 10);
-      if (!isNaN(index) && index >= 0 && index < phone.colorOptions.length) {
-        return index;
-      }
-    }
-    return null;
-  };
-
-  const getInitialStorageIndex = (): number | null => {
-    if (!phone) return null;
-    const storageParam = searchParams.get('storage');
-    if (storageParam !== null) {
-      const index = parseInt(storageParam, 10);
-      if (!isNaN(index) && index >= 0 && index < phone.storageOptions.length) {
-        return index;
-      }
-    }
-    return null;
-  };
-
   const [selectedColorIndex, setSelectedColorIndex] = useState<number | null>(
     null
   );
@@ -80,11 +56,41 @@ export default function PhoneDetail() {
 
   useEffect(() => {
     if (phone) {
+      const getInitialColorIndex = (): number | null => {
+        const colorParam = searchParams.get('color');
+        if (colorParam !== null) {
+          const index = parseInt(colorParam, 10);
+          if (
+            !isNaN(index) &&
+            index >= 0 &&
+            index < phone.colorOptions.length
+          ) {
+            return index;
+          }
+        }
+        return null;
+      };
+
+      const getInitialStorageIndex = (): number | null => {
+        const storageParam = searchParams.get('storage');
+        if (storageParam !== null) {
+          const index = parseInt(storageParam, 10);
+          if (
+            !isNaN(index) &&
+            index >= 0 &&
+            index < phone.storageOptions.length
+          ) {
+            return index;
+          }
+        }
+        return null;
+      };
+
       setSelectedColorIndex(getInitialColorIndex());
       setSelectedStorageIndex(getInitialStorageIndex());
       document.title = `${phone.brand} ${phone.name} | MBST Mobile Phones`;
     }
-  }, [phone, searchParams, getInitialColorIndex, getInitialStorageIndex]);
+  }, [phone, searchParams]);
 
   if (!phone && !error) {
     return null;

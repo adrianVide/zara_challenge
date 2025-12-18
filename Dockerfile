@@ -8,8 +8,8 @@ WORKDIR /app
 # Copy package files
 COPY package.json package-lock.json ./
 
-# Install dependencies
-RUN npm ci
+# Install ALL dependencies (including devDependencies for linting/formatting)
+RUN npm ci --include=dev
 
 # Stage 2: Builder
 FROM node:20-alpine AS builder
@@ -19,9 +19,8 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Set environment variables for build
+# Set environment variables
 ENV NEXT_TELEMETRY_DISABLED=1
-ENV NODE_ENV=production
 
 # Run quality checks before building
 RUN echo "Running code quality checks..." && \
@@ -29,7 +28,10 @@ RUN echo "Running code quality checks..." && \
     npm run lint && \
     npm run type-check
 
-# Build the application (prebuild hook also runs checks, but explicit is better)
+# Set production environment for build
+ENV NODE_ENV=production
+
+# Build the application
 RUN npm run build
 
 # Stage 3: Runner

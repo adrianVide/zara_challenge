@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useCart } from '@/contexts/CartContext';
 import { LoadingBar } from '@/components/LoadingBar/LoadingBar';
 import styles from './Navbar.module.css';
@@ -14,7 +15,14 @@ export function Navbar() {
         <div className={styles.container}>
           {/* Logo */}
           <Link href="/" className={styles.logo} aria-label="MBST Home">
-            <img src="/logo.svg" alt="MBST" className={styles.logoImage} />
+            <Image
+              src="/logo.svg"
+              alt="MBST"
+              className={styles.logoImage}
+              width={80}
+              height={24}
+              priority
+            />
           </Link>
 
           {/* Cart Icon */}
