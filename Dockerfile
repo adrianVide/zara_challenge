@@ -9,8 +9,11 @@ RUN apk add --no-cache libc6-compat
 RUN npm install -g npm@9.9.4
 
 WORKDIR /app
-COPY package.json package-lock.json ./
-RUN npm ci --legacy-peer-deps
+COPY package.json ./
+COPY package-lock.json . 2>/dev/null || true
+
+RUN npm install --legacy-peer-deps
+
 
 ############################
 # Stage 2: Builder
@@ -21,7 +24,7 @@ RUN apk add --no-cache libc6-compat
 RUN npm install -g npm@9.9.4
 
 WORKDIR /app
-COPY package.json package-lock.json ./
+COPY package.json ./
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
