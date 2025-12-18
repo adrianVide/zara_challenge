@@ -1,8 +1,5 @@
 # syntax=docker/dockerfile:1
 
-############################
-# Stage 1: Dependencies
-############################
 FROM node:20-alpine AS deps
 
 RUN apk add --no-cache libc6-compat
@@ -11,8 +8,9 @@ RUN npm install -g npm@9.9.4
 WORKDIR /app
 COPY package.json package-lock.json ./
 
-# Instala exactamente lo que está en el lockfile
-RUN npm ci
+# Instalación con cache persistente
+RUN --mount=type=cache,target=/root/.npm \
+    npm ci
 
 ############################
 # Stage 2: Test
@@ -27,7 +25,7 @@ COPY package.json package-lock.json ./
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Ejecuta los tests con NODE_ENV=test
+# NODE_ENV=test para que React.act funcione
 ENV NODE_ENV=test
 RUN npm test
 
