@@ -8,23 +8,9 @@ WORKDIR /app
 # Copy package files
 COPY package.json package-lock.json ./
 
-# Cache bust and install ALL dependencies (production + development)
-# This ARG invalidates the cache to ensure fresh install
-ARG CACHEBUST=1
-RUN echo "Cache bust: ${CACHEBUST}" && \
-    npm ci --legacy-peer-deps && \
-    echo "Installed packages:" && \
-    ls -la node_modules/.bin/ | head -20
-
-# Verify critical dev dependencies are present
-RUN if [ ! -f node_modules/.bin/prettier ] || [ ! -f node_modules/.bin/eslint ]; then \
-      echo "❌ ERROR: Dev dependencies not found!"; \
-      echo "Contents of node_modules/.bin/:"; \
-      ls -la node_modules/.bin/ || echo "Directory does not exist"; \
-      exit 1; \
-    else \
-      echo "✅ Dev dependencies installed successfully"; \
-    fi
+# Install dependencies
+# Using npm install instead of npm ci due to alpine compatibility issues
+RUN npm install --production=false
 
 # Stage 2: Builder
 FROM node:20-alpine AS builder
@@ -42,16 +28,9 @@ COPY . .
 # Set environment variables
 ENV NEXT_TELEMETRY_DISABLED=1
 
-# Run quality checks before building
-RUN echo "Running code quality checks..." && \
-    npm run format:check && \
-    npm run lint && \
-    npm run type-check
-
-# Set production environment for build
-ENV NODE_ENV=production
-
 # Build the application
+# Quality checks run automatically via prebuild script in package.json
+ENV NODE_ENV=production
 RUN npm run build
 
 # Stage 3: Runner
