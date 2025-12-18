@@ -27,7 +27,7 @@ export default function PhoneDetail() {
 
   const getInitialColorIndex = (): number | null => {
     if (!phone) return null;
-    const colorParam = searchParams.get('color');
+    const colorParam = searchParams.get("color");
     if (colorParam !== null) {
       const index = parseInt(colorParam, 10);
       if (!isNaN(index) && index >= 0 && index < phone.colorOptions.length) {
@@ -39,7 +39,7 @@ export default function PhoneDetail() {
 
   const getInitialStorageIndex = (): number | null => {
     if (!phone) return null;
-    const storageParam = searchParams.get('storage');
+    const storageParam = searchParams.get("storage");
     if (storageParam !== null) {
       const index = parseInt(storageParam, 10);
       if (!isNaN(index) && index >= 0 && index < phone.storageOptions.length) {
@@ -49,8 +49,12 @@ export default function PhoneDetail() {
     return null;
   };
 
-  const [selectedColorIndex, setSelectedColorIndex] = useState<number | null>(null);
-  const [selectedStorageIndex, setSelectedStorageIndex] = useState<number | null>(null);
+  const [selectedColorIndex, setSelectedColorIndex] = useState<number | null>(
+    null
+  );
+  const [selectedStorageIndex, setSelectedStorageIndex] = useState<
+    number | null
+  >(null);
 
   useEffect(() => {
     const fetchPhone = async () => {
@@ -78,8 +82,9 @@ export default function PhoneDetail() {
     if (phone) {
       setSelectedColorIndex(getInitialColorIndex());
       setSelectedStorageIndex(getInitialStorageIndex());
+      document.title = `${phone.brand} ${phone.name} | MBST Mobile Phones`;
     }
-  }, [phone, searchParams]);
+  }, [phone, searchParams, getInitialColorIndex, getInitialStorageIndex]);
 
   if (!phone && !error) {
     return null;
@@ -88,7 +93,7 @@ export default function PhoneDetail() {
   if (error || !phone) {
     return (
       <div className={styles.container}>
-        <div className={styles.error}>
+        <div className={styles.error} role="alert" aria-live="assertive">
           <strong>Error:</strong> {error || "Phone not found"}
         </div>
         <Link href="/" className={styles.errorLink}>
@@ -98,33 +103,42 @@ export default function PhoneDetail() {
     );
   }
 
-  const selectedColor = selectedColorIndex !== null ? phone.colorOptions[selectedColorIndex] : null;
-  const selectedStorage = selectedStorageIndex !== null ? phone.storageOptions[selectedStorageIndex] : null;
+  const selectedColor =
+    selectedColorIndex !== null ? phone.colorOptions[selectedColorIndex] : null;
+  const selectedStorage =
+    selectedStorageIndex !== null
+      ? phone.storageOptions[selectedStorageIndex]
+      : null;
   const currentPrice = selectedStorage?.price || phone.basePrice;
 
   const hasColorOptions = phone.colorOptions && phone.colorOptions.length > 0;
-  const hasStorageOptions = phone.storageOptions && phone.storageOptions.length > 0;
+  const hasStorageOptions =
+    phone.storageOptions && phone.storageOptions.length > 0;
 
-  const priceDisplay = hasStorageOptions && selectedStorageIndex === null
-    ? `From ${currentPrice} EUR`
-    : `${currentPrice} EUR`;
+  const priceDisplay =
+    hasStorageOptions && selectedStorageIndex === null
+      ? `From ${currentPrice} EUR`
+      : `${currentPrice} EUR`;
   const canAddToCart =
     (!hasColorOptions || selectedColor) &&
     (!hasStorageOptions || selectedStorage);
 
-  const updateURL = (colorIndex: number | null, storageIndex: number | null) => {
+  const updateURL = (
+    colorIndex: number | null,
+    storageIndex: number | null
+  ) => {
     const params = new URLSearchParams();
 
     if (colorIndex !== null) {
-      params.set('color', colorIndex.toString());
+      params.set("color", colorIndex.toString());
     }
 
     if (storageIndex !== null) {
-      params.set('storage', storageIndex.toString());
+      params.set("storage", storageIndex.toString());
     }
 
     const queryString = params.toString();
-    const newUrl = queryString ? `?${queryString}` : '';
+    const newUrl = queryString ? `?${queryString}` : "";
 
     router.replace(`/phone/${phone.id}${newUrl}`, { scroll: false });
   };
@@ -164,7 +178,12 @@ export default function PhoneDetail() {
       <div className={styles.container}>
         <div className={styles.productDetail}>
           <ProductImage
-            imageUrl={selectedColor?.imageUrl || (phone.colorOptions.length > 0 ? phone.colorOptions[0]?.imageUrl : '')}
+            imageUrl={
+              selectedColor?.imageUrl ||
+              (phone.colorOptions.length > 0
+                ? phone.colorOptions[0]?.imageUrl
+                : "")
+            }
             brand={phone.brand}
             name={phone.name}
           />
@@ -174,7 +193,9 @@ export default function PhoneDetail() {
               {phone.brand} {phone.name}
             </h1>
 
-            <p className={styles.price}>{priceDisplay}</p>
+            <p className={styles.price} aria-label={`Price: ${priceDisplay}`}>
+              {priceDisplay}
+            </p>
 
             <StorageSelector
               storageOptions={phone.storageOptions}
@@ -192,8 +213,15 @@ export default function PhoneDetail() {
               onClick={handleAddToCart}
               disabled={!canAddToCart}
               className={styles.addButton}
+              type="button"
+              aria-label={
+                canAddToCart
+                  ? "Add to cart"
+                  : "Please select all required options to add to cart"
+              }
+              aria-disabled={!canAddToCart}
             >
-              AÑADIR
+              ADD TO CART
             </button>
           </div>
         </div>

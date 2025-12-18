@@ -16,10 +16,10 @@ export function ColorSelector({ colorOptions, selectedIndex, onSelect }: ColorSe
 
   return (
     <div className={styles.selector}>
-      <div className={styles.selectorLabel}>
+      <div className={styles.selectorLabel} id="color-selector-label">
         COLOR. PICK YOUR FAVOURITE.
       </div>
-      <div className={styles.colorOptions}>
+      <div className={styles.colorOptions} role="group" aria-labelledby="color-selector-label">
         {colorOptions.map((color, index) => (
           <button
             key={index}
@@ -28,11 +28,21 @@ export function ColorSelector({ colorOptions, selectedIndex, onSelect }: ColorSe
               selectedIndex === index ? styles.selected : ''
             }`}
             style={{ backgroundColor: color.hexCode }}
-            title={color.name}
-          />
+            aria-label={`${color.name}${selectedIndex === index ? ', selected' : ''}`}
+            aria-pressed={selectedIndex === index}
+            type="button"
+          >
+            {selectedIndex === index && (
+              <span className={styles.checkmark} aria-hidden="true">
+                ✓
+              </span>
+            )}
+          </button>
         ))}
       </div>
-      <div className={styles.colorName}>{selectedColor?.name || ''}</div>
+      <div className={styles.colorName} aria-live="polite" aria-atomic="true">
+        {selectedColor?.name || 'No color selected'}
+      </div>
     </div>
   );
 }

@@ -16,8 +16,18 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Mobile Phones Catalog",
-  description: "Browse and shop mobile phones",
+  title: {
+    template: "%s | MBST Mobile Phones",
+    default: "MBST Mobile Phones - Browse and Shop Smartphones",
+  },
+  description: "Browse and shop the latest mobile phones and smartphones. Find the perfect device with detailed specifications and competitive prices.",
+  themeColor: "#000000",
+};
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
 };
 
 export default function RootLayout({
@@ -28,10 +38,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
+        <a href="#main-content" className="skip-link">
+          Skip to main content
+        </a>
         <LoadingProvider>
           <CartProvider>
             <Navbar />
-            {children}
+            <main id="main-content">
+              {children}
+            </main>
           </CartProvider>
         </LoadingProvider>
       </body>

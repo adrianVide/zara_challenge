@@ -14,10 +14,14 @@ export function StorageSelector({ storageOptions, selectedIndex, onSelect }: Sto
 
   return (
     <div className={styles.selector}>
-      <div className={styles.selectorLabel}>
-        STORAGE ¿HOW MUCH SPACE DO YOU NEED?
+      <div className={styles.selectorLabel} id="storage-selector-label">
+        STORAGE. HOW MUCH SPACE DO YOU NEED?
       </div>
-      <div className={styles.storageOptions}>
+      <div
+        className={styles.storageOptions}
+        role="group"
+        aria-labelledby="storage-selector-label"
+      >
         {storageOptions.map((storage, index) => (
           <button
             key={index}
@@ -25,6 +29,9 @@ export function StorageSelector({ storageOptions, selectedIndex, onSelect }: Sto
             className={`${styles.storageButton} ${
               selectedIndex === index ? styles.selected : ''
             }`}
+            aria-label={`${storage.capacity} storage${selectedIndex === index ? ', selected' : ''}`}
+            aria-pressed={selectedIndex === index}
+            type="button"
           >
             {storage.capacity}
           </button>

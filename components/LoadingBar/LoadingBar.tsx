@@ -9,7 +9,13 @@ export function LoadingBar() {
   if (!isLoading) return null;
 
   return (
-    <div className={styles.loadingBar}>
+    <div
+      className={styles.loadingBar}
+      role="progressbar"
+      aria-label="Loading content"
+      aria-busy="true"
+      aria-live="polite"
+    >
       <div className={styles.progress} />
     </div>
   );

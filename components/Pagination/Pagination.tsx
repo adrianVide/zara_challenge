@@ -34,24 +34,30 @@ export function Pagination({ currentPage, itemsPerPage }: PaginationProps) {
   };
 
   return (
-    <div className={styles.container}>
+    <nav className={styles.container} role="navigation" aria-label="Product list pagination">
       <button
         onClick={() => navigateToPage(currentPage - 1)}
         disabled={!hasPreviousPage}
         className={styles.button}
+        aria-label={`Go to previous page, page ${currentPage - 1}`}
+        type="button"
       >
         PREVIOUS
       </button>
 
-      <span className={styles.pageNumber}>PAGE {currentPage}</span>
+      <span className={styles.pageNumber} aria-current="page" aria-label={`Current page, page ${currentPage}`}>
+        PAGE {currentPage}
+      </span>
 
       <button
         onClick={() => navigateToPage(currentPage + 1)}
         disabled={!hasNextPage}
         className={styles.button}
+        aria-label={`Go to next page, page ${currentPage + 1}`}
+        type="button"
       >
         NEXT
       </button>
-    </div>
+    </nav>
   );
 }

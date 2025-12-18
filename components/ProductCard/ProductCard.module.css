@@ -30,6 +30,11 @@
   color: var(--hover-text);
 }
 
+.card:focus-visible {
+  outline: 3px solid var(--foreground);
+  outline-offset: 4px;
+}
+
 .card > * {
   position: relative;
   z-index: 1;

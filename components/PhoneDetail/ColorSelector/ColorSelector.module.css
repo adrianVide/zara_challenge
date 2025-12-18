@@ -17,18 +17,41 @@
 }
 
 .colorButton {
-  width: 32px;
-  height: 32px;
-  border: 1px solid var(--border-color);
+  width: 44px;
+  height: 44px;
+  border: 2px solid var(--border-color);
   cursor: pointer;
   padding: 0;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.2s ease;
+}
+
+.colorButton:hover {
+  border-color: var(--foreground);
 }
 
 .colorButton.selected {
-  border: 2px solid var(--foreground);
+  border: 3px solid var(--foreground);
+  box-shadow: 0 0 0 1px var(--background), 0 0 0 4px var(--foreground);
+}
+
+.checkmark {
+  color: var(--foreground);
+  font-size: 1.25rem;
+  font-weight: bold;
+  text-shadow:
+    -1px -1px 0 var(--background),
+    1px -1px 0 var(--background),
+    -1px 1px 0 var(--background),
+    1px 1px 0 var(--background);
+  pointer-events: none;
 }
 
 .colorName {
   font-size: var(--font-size-sm);
-  color: #666;
+  color: #595959;
+  min-height: 1.5em;
 }

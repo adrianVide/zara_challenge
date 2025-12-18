@@ -52,12 +52,19 @@ export function SearchBar() {
 
   return (
     <div className={styles.container}>
+      <label htmlFor="phone-search" className={styles.visuallyHidden}>
+        Search for smartphones
+      </label>
       <input
-        type="text"
+        id="phone-search"
+        type="search"
         value={searchValue}
         onChange={(e) => setSearchValue(e.target.value)}
         placeholder="Search for a smartphone..."
         className={styles.input}
+        aria-label="Search for smartphones"
+        autoComplete="off"
+        role="searchbox"
       />
     </div>
   );

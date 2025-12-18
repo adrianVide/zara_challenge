@@ -1,21 +1,28 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { useCart } from "@/contexts/CartContext";
 import styles from "./page.module.css";
 
 export default function CartPage() {
-  const router = useRouter();
   const { items, removeItem, totalPrice, itemCount } = useCart();
+
+  useEffect(() => {
+    document.title = `Shopping Cart (${itemCount}) | MBST Mobile Phones`;
+  }, [itemCount]);
 
   if (itemCount === 0) {
     return (
       <div className={styles.container}>
         <h1 className={styles.title}>CART (0)</h1>
-        <p className={styles.emptyMessage}>Your cart is empty</p>
+        <p className={styles.emptyMessage} role="status" aria-live="polite">
+          Your cart is empty
+        </p>
         <Link href="/">
-          <button className={styles.continueButton}>CONTINUE SHOPPING</button>
+          <button className={styles.continueButton} type="button">
+            CONTINUE SHOPPING
+          </button>
         </Link>
       </div>
     );
@@ -23,11 +30,21 @@ export default function CartPage() {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>CART ({itemCount})</h1>
+      <h1 className={styles.title}>
+        CART (
+        <span aria-live="polite" aria-atomic="true">
+          {itemCount}
+        </span>
+        )
+      </h1>
 
-      <div className={styles.itemsList}>
+      <div
+        className={styles.itemsList}
+        role="list"
+        aria-label="Shopping cart items"
+      >
         {items.map((item) => (
-          <div key={item.id} className={styles.item}>
+          <div key={item.id} className={styles.item} role="listitem">
             <img
               src={item.imageUrl}
               alt={`${item.brand} ${item.name}`}
@@ -35,18 +52,25 @@ export default function CartPage() {
             />
 
             <div className={styles.itemInfo}>
-              <h3 className={styles.itemName}>
+              <h2 className={styles.itemName}>
                 {item.brand} {item.name}
-              </h3>
+              </h2>
               <p className={styles.itemDetails}>
                 {item.storage} | {item.color}
               </p>
-              <p className={styles.itemPrice}>{item.price} EUR</p>
+              <p
+                className={styles.itemPrice}
+                aria-label={`Price: ${item.price} euros`}
+              >
+                {item.price} EUR
+              </p>
               <button
                 onClick={() => removeItem(item.id)}
                 className={styles.removeButton}
+                aria-label={`Remove ${item.brand} ${item.name} from cart`}
+                type="button"
               >
-                Eliminar
+                REMOVE
               </button>
             </div>
           </div>
@@ -55,18 +79,31 @@ export default function CartPage() {
 
       <div className={styles.footer}>
         <Link href="/">
-          <button className={styles.continueButton}>CONTINUE SHOPPING</button>
+          <button className={styles.continueButton} type="button">
+            CONTINUE SHOPPING
+          </button>
         </Link>
 
         <div className={styles.totalSection}>
           <div className={styles.totalLabel}>
             <span>TOTAL</span>
-            <span className={styles.totalAmount}>
+            <span
+              className={styles.totalAmount}
+              aria-live="polite"
+              aria-atomic="true"
+              aria-label={`Total: ${totalPrice.toFixed(0)} euros`}
+            >
               {totalPrice.toFixed(0)} EUR
             </span>
           </div>
 
-          <button className={styles.payButton}>PAY</button>
+          <button
+            className={styles.payButton}
+            type="button"
+            aria-label="Proceed to payment"
+          >
+            PAY
+          </button>
         </div>
       </div>
     </div>
