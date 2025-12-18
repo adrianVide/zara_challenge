@@ -26,6 +26,16 @@ const eslintConfig = defineConfig([
     'build/**',
     'next-env.d.ts',
     'node_modules/**',
+    // Test and coverage files:
+    'coverage/**',
+    '**/__tests__/**',
+    '**/*.test.ts',
+    '**/*.test.tsx',
+    '**/*.spec.ts',
+    '**/*.spec.tsx',
+    'vitest.config.mjs',
+    'vitest.setup.ts',
+    'test-utils/**',
   ]),
 ]);
 

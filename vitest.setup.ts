@@ -20,6 +20,7 @@ vi.mock('next/image', () => ({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   default: (props: any) => {
     // Remove Next.js-specific props that don't exist on regular img tags
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const {
       priority,
       loading,
