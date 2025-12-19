@@ -9,7 +9,9 @@ E-commerce web app for browsing and managing a mobile phone catalog. Built with 
 ## Notes
 
 1. First load might take longer since the backend server goes to sleep if not queried in a certain amount of time.
-2. API URL and API key values hardcoded to make the assesment easier, avoiding using env variables.
+2. To run locally, you need to create a .env.development file with the values available in the task requirements PDF:
+   NEXT_PUBLIC_API_BASE_URL
+   EXT_PUBLIC_API_KEY
 
 ## Quick Start
 
