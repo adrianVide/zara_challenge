@@ -48,7 +48,7 @@ npm run test:coverage    # Generate coverage report
 
 ## Features Implemented
 
-- ✅ **3 Main Views:** Phone list, detail, and cart
+- ✅ **3 Main Views:** Phone list, detail, and cart + Error boundaries
 - ✅ **Real-time Search:** API-filtered by name/brand, debounced
 - ✅ **Dynamic Pricing:** Updates with color/storage selection
 - ✅ **Persistent Cart:** localStorage-based
@@ -72,4 +72,5 @@ npm run test:coverage    # Generate coverage report
 - 🚀 **Docker:** Production-ready containerization
 - 🚀 **Pre-commit hooks:** Automated quality checks
 - 🚀 **Pagination:** 20 items per page
+- 🚀 **Error boundaries:** Error control
 - 🚀 **Loading states:** Enhanced UX
