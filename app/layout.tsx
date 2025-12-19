@@ -22,13 +22,13 @@ export const metadata: Metadata = {
   },
   description:
     'Browse and shop the latest mobile phones and smartphones. Find the perfect device with detailed specifications and competitive prices.',
-  themeColor: '#000000',
 };
 
 export const viewport = {
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
+  themeColor: '#000000',
 };
 
 export default function RootLayout({

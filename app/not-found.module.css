@@ -1,0 +1,94 @@
+.notFoundContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 70vh;
+  padding: var(--page-padding);
+  text-align: center;
+}
+
+.notFoundContent {
+  max-width: 600px;
+  width: 100%;
+}
+
+.notFoundTitle {
+  font-size: 8rem;
+  font-weight: bold;
+  margin-bottom: var(--spacing-md);
+  color: var(--foreground);
+  line-height: 1;
+}
+
+.notFoundSubtitle {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  margin-bottom: var(--spacing-md);
+  color: var(--foreground);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.notFoundMessage {
+  font-size: var(--font-size-md);
+  margin-bottom: var(--spacing-xl);
+  color: var(--foreground);
+  line-height: 1.6;
+}
+
+.notFoundActions {
+  display: flex;
+  gap: 0;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.homeLink,
+.backButton {
+  padding: 0.75rem 1.5rem;
+  min-height: 44px;
+  min-width: 44px;
+  border: 1px solid var(--border-color);
+  font-size: var(--font-size-sm);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-left: -1px;
+}
+
+.homeLink:first-child,
+.backButton:first-child {
+  margin-left: 0;
+}
+
+.homeLink {
+  background-color: var(--foreground);
+  color: var(--background);
+  border: 1px solid var(--foreground);
+  display: inline-block;
+}
+
+.homeLink:hover {
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+.backButton {
+  background-color: var(--background);
+  color: var(--foreground);
+  border: 1px solid var(--border-color);
+}
+
+.backButton:hover {
+  border-color: var(--foreground);
+  background-color: var(--background);
+}
+
+@media (max-width: 768px) {
+  .notFoundTitle {
+    font-size: 5rem;
+  }
+}
