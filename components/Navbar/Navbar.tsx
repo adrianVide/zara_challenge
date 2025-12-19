@@ -17,7 +17,6 @@ export function Navbar() {
           <Link href="/" className={styles.logo} aria-label="MBST Home">
             <Image src="/logo.svg" alt="MBST" width={74} height={24} priority />
           </Link>
-          test
           {/* Cart Icon */}
           <Link
             href="/cart"
