@@ -1,12 +1,9 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import Home from '../page';
-import { getMobilePhones } from '@/lib/api/mobile-api';
 import { mockMobilePhones } from '@/test-utils/mock-data';
 
-vi.mock('@/lib/api/mobile-api', () => ({
-  getMobilePhones: vi.fn(),
-}));
+const mockFetch = vi.fn();
 
 vi.mock('@/components/MobilePhonesList/MobilePhonesList', () => ({
   MobilePhonesList: () => (
@@ -27,11 +24,14 @@ vi.mock('@/components/SearchBar/SearchBar', () => ({
 describe('Home Page', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    mockFetch.mockResolvedValue({
+      ok: true,
+      json: async () => mockMobilePhones,
+    } as Response);
+    global.fetch = mockFetch;
   });
 
   it('renders successfully with phones data', async () => {
-    vi.mocked(getMobilePhones).mockResolvedValue(mockMobilePhones);
-
     const searchParams = Promise.resolve({});
     const component = await Home({ searchParams });
     render(component);
@@ -42,73 +42,75 @@ describe('Home Page', () => {
   });
 
   it('handles pagination correctly', async () => {
-    vi.mocked(getMobilePhones).mockResolvedValue(mockMobilePhones);
-
     const searchParams = Promise.resolve({ page: '2' });
     const component = await Home({ searchParams });
     render(component);
 
     expect(screen.getByText('Page 2')).toBeInTheDocument();
-    expect(getMobilePhones).toHaveBeenCalledWith(
-      expect.objectContaining({
-        offset: 20, // (page 2 - 1) * 20
-      })
+    expect(mockFetch).toHaveBeenCalledWith(
+      expect.stringContaining('offset=20'),
+      expect.any(Object)
     );
   });
 
   it('handles search query', async () => {
-    vi.mocked(getMobilePhones).mockResolvedValue(mockMobilePhones);
-
     const searchParams = Promise.resolve({ search: 'iPhone' });
     const component = await Home({ searchParams });
     render(component);
 
-    expect(getMobilePhones).toHaveBeenCalledWith(
-      expect.objectContaining({
-        search: 'iPhone',
-      })
+    expect(mockFetch).toHaveBeenCalledWith(
+      expect.stringContaining('search=iPhone'),
+      expect.any(Object)
     );
   });
 
   it('handles API errors gracefully', async () => {
-    const errorMessage = 'API Error';
-    vi.mocked(getMobilePhones).mockRejectedValue(new Error(errorMessage));
+    mockFetch.mockResolvedValue({
+      ok: false,
+      statusText: 'API Error',
+    } as Response);
 
     const searchParams = Promise.resolve({});
     const component = await Home({ searchParams });
     render(component);
 
-    // Should still render the layout even with error
     expect(screen.getByTestId('search-bar')).toBeInTheDocument();
     expect(screen.getByTestId('mobile-phones-list')).toBeInTheDocument();
   });
 
   it('fetches unique phones with correct parameters', async () => {
-    vi.mocked(getMobilePhones).mockResolvedValue(mockMobilePhones);
-
     const searchParams = Promise.resolve({ page: '1', search: 'Samsung' });
     const component = await Home({ searchParams });
     render(component);
 
-    expect(getMobilePhones).toHaveBeenCalledWith({
-      limit: 20,
-      offset: 0,
-      search: 'Samsung',
-    });
+    expect(mockFetch).toHaveBeenCalledWith(
+      expect.stringContaining('limit=20'),
+      expect.any(Object)
+    );
+    expect(mockFetch).toHaveBeenCalledWith(
+      expect.stringContaining('offset=0'),
+      expect.any(Object)
+    );
+    expect(mockFetch).toHaveBeenCalledWith(
+      expect.stringContaining('search=Samsung'),
+      expect.any(Object)
+    );
   });
 
   it('handles empty search params', async () => {
-    vi.mocked(getMobilePhones).mockResolvedValue([]);
+    mockFetch.mockResolvedValue({
+      ok: true,
+      json: async () => [],
+    } as Response);
 
     const searchParams = Promise.resolve({});
     const component = await Home({ searchParams });
     render(component);
 
-    expect(getMobilePhones).toHaveBeenCalledWith({
-      limit: 20,
-      offset: 0,
-      search: '',
-    });
+    expect(mockFetch).toHaveBeenCalledWith(
+      expect.stringContaining('limit=20'),
+      expect.any(Object)
+    );
     expect(screen.getByTestId('mobile-phones-list')).toBeInTheDocument();
   });
 });

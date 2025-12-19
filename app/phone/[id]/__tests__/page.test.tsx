@@ -2,13 +2,9 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import PhoneDetail from '../page';
-import { getMobilePhoneById } from '@/lib/api/mobile-api';
 import { mockProductDetail } from '@/test-utils/mock-data';
 
-// Mock API
-vi.mock('@/lib/api/mobile-api', () => ({
-  getMobilePhoneById: vi.fn(),
-}));
+const mockFetch = vi.fn();
 
 // Mock child components
 vi.mock('@/components/PhoneDetail/BackButton/BackButton', () => ({
@@ -116,11 +112,14 @@ vi.mock('next/navigation', async () => {
 describe('Phone Detail Page', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    mockFetch.mockResolvedValue({
+      ok: true,
+      json: async () => mockProductDetail,
+    } as Response);
+    global.fetch = mockFetch;
   });
 
   it('fetches and displays phone details', async () => {
-    vi.mocked(getMobilePhoneById).mockResolvedValue(mockProductDetail);
-
     render(<PhoneDetail />);
 
     await waitFor(() => {
@@ -131,12 +130,14 @@ describe('Phone Detail Page', () => {
 
     expect(mockSetIsLoading).toHaveBeenCalledWith(true);
     expect(mockSetIsLoading).toHaveBeenCalledWith(false);
-    expect(getMobilePhoneById).toHaveBeenCalledWith('1');
+    expect(mockFetch).toHaveBeenCalledWith('/api/products/1');
   });
 
   it('displays error state when API fails', async () => {
-    const errorMessage = 'Failed to load phone';
-    vi.mocked(getMobilePhoneById).mockRejectedValue(new Error(errorMessage));
+    mockFetch.mockResolvedValue({
+      ok: false,
+      statusText: 'Failed to load phone',
+    } as Response);
 
     render(<PhoneDetail />);
 
@@ -149,8 +150,6 @@ describe('Phone Detail Page', () => {
   });
 
   it('displays price correctly without selection', async () => {
-    vi.mocked(getMobilePhoneById).mockResolvedValue(mockProductDetail);
-
     render(<PhoneDetail />);
 
     await waitFor(() => {
@@ -161,7 +160,6 @@ describe('Phone Detail Page', () => {
 
   it('updates price when storage is selected', async () => {
     const user = userEvent.setup();
-    vi.mocked(getMobilePhoneById).mockResolvedValue(mockProductDetail);
 
     render(<PhoneDetail />);
 
@@ -169,7 +167,6 @@ describe('Phone Detail Page', () => {
       expect(screen.getByTestId('storage-selector')).toBeInTheDocument();
     });
 
-    // Initially shows "From X EUR"
     const fromText = screen.getByText(/From/);
     expect(fromText).toBeInTheDocument();
 
@@ -178,7 +175,6 @@ describe('Phone Detail Page', () => {
     );
     await user.click(storageButton);
 
-    // After selection, price updates (the paragraph element gets updated)
     await waitFor(() => {
       const priceElement = screen.getByLabelText(/Price:/);
       expect(priceElement.textContent).toContain('EUR');
@@ -186,8 +182,6 @@ describe('Phone Detail Page', () => {
   });
 
   it('renders all product sections', async () => {
-    vi.mocked(getMobilePhoneById).mockResolvedValue(mockProductDetail);
-
     render(<PhoneDetail />);
 
     await waitFor(() => {
@@ -200,8 +194,6 @@ describe('Phone Detail Page', () => {
   });
 
   it('disables add to cart button when options not selected', async () => {
-    vi.mocked(getMobilePhoneById).mockResolvedValue(mockProductDetail);
-
     render(<PhoneDetail />);
 
     await waitFor(() => {
@@ -211,8 +203,6 @@ describe('Phone Detail Page', () => {
   });
 
   it('renders color and storage selectors', async () => {
-    vi.mocked(getMobilePhoneById).mockResolvedValue(mockProductDetail);
-
     render(<PhoneDetail />);
 
     await waitFor(() => {
@@ -230,8 +220,6 @@ describe('Phone Detail Page', () => {
   });
 
   it('renders add to cart button', async () => {
-    vi.mocked(getMobilePhoneById).mockResolvedValue(mockProductDetail);
-
     render(<PhoneDetail />);
 
     await waitFor(() => {
@@ -243,7 +231,6 @@ describe('Phone Detail Page', () => {
 
   it('updates URL when color is selected', async () => {
     const user = userEvent.setup();
-    vi.mocked(getMobilePhoneById).mockResolvedValue(mockProductDetail);
 
     render(<PhoneDetail />);
 
@@ -266,7 +253,6 @@ describe('Phone Detail Page', () => {
 
   it('updates URL when storage is selected', async () => {
     const user = userEvent.setup();
-    vi.mocked(getMobilePhoneById).mockResolvedValue(mockProductDetail);
 
     render(<PhoneDetail />);
 
@@ -288,8 +274,6 @@ describe('Phone Detail Page', () => {
   });
 
   it('renders back button', async () => {
-    vi.mocked(getMobilePhoneById).mockResolvedValue(mockProductDetail);
-
     render(<PhoneDetail />);
 
     await waitFor(() => {

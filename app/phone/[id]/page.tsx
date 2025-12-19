@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
-import { getMobilePhoneById } from '@/lib/api/mobile-api';
 import type { ProductDetail, CartItem } from '@/types/mobile';
 import Link from 'next/link';
 import { useLoading } from '@/contexts/LoadingContext';
@@ -14,6 +13,16 @@ import { ColorSelector } from '@/components/PhoneDetail/ColorSelector/ColorSelec
 import { Specifications } from '@/components/PhoneDetail/Specifications/Specifications';
 import { SimilarItems } from '@/components/PhoneDetail/SimilarItems/SimilarItems';
 import styles from './page.module.css';
+
+async function getMobilePhoneById(id: string): Promise<ProductDetail> {
+  const response = await fetch(`/api/products/${id}`);
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch phone: ${response.statusText}`);
+  }
+
+  return response.json();
+}
 
 export default function PhoneDetail() {
   const params = useParams();

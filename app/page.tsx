@@ -1,4 +1,3 @@
-import { getMobilePhones } from '@/lib/api/mobile-api';
 import type { MobilePhone } from '@/types/mobile';
 import { MobilePhonesProvider } from '@/contexts/MobilePhonesContext';
 import { MobilePhonesList } from '@/components/MobilePhonesList/MobilePhonesList';
@@ -9,9 +8,41 @@ import styles from './page.module.css';
 export const revalidate = 60;
 
 const ITEMS_PER_PAGE = 20;
+const API_BASE_URL = process.env.API_BASE_URL!;
+const API_KEY = process.env.API_KEY!;
 
 interface HomeProps {
   searchParams: Promise<{ page?: string; search?: string }>;
+}
+
+async function getMobilePhones(params: {
+  limit: number;
+  offset: number;
+  search: string;
+}): Promise<MobilePhone[]> {
+  const queryParams = new URLSearchParams();
+  queryParams.append('limit', params.limit.toString());
+  queryParams.append('offset', params.offset.toString());
+  if (params.search) {
+    queryParams.append('search', params.search);
+  }
+
+  const response = await fetch(
+    `${API_BASE_URL}/products?${queryParams.toString()}`,
+    {
+      headers: {
+        'x-api-key': API_KEY,
+        'Content-Type': 'application/json',
+      },
+      next: { revalidate: 60 },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch phones: ${response.statusText}`);
+  }
+
+  return response.json();
 }
 
 async function fetchUniquePhones(

@@ -5,12 +5,17 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        - API_BASE_URL=${API_BASE_URL}
+        - API_KEY=${API_KEY}
     ports:
       - "3060:3060"
     environment:
       - NODE_ENV=production
       - PORT=3060
       - NEXT_TELEMETRY_DISABLED=1
+      - API_BASE_URL=${API_BASE_URL}
+      - API_KEY=${API_KEY}
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3060/"]
