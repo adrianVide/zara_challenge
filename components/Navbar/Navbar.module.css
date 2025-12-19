@@ -16,11 +16,6 @@
   text-decoration: none;
 }
 
-.logoImage {
-  height: 20px;
-  width: auto;
-}
-
 .cartLink {
   text-decoration: none;
   display: flex;
