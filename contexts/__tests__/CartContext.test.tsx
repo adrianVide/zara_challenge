@@ -18,9 +18,14 @@ describe('CartContext', () => {
       wrapper: CartProvider,
     });
 
+    act(() => {
+      vi.runAllTimers();
+    });
+
     expect(result.current.items).toEqual([]);
     expect(result.current.itemCount).toBe(0);
     expect(result.current.totalPrice).toBe(0);
+    expect(result.current.isHydrated).toBe(true);
   });
 
   it('loads cart from localStorage', () => {
@@ -36,6 +41,7 @@ describe('CartContext', () => {
 
     expect(result.current.items).toHaveLength(1);
     expect(result.current.items[0]).toEqual(mockCartItem);
+    expect(result.current.isHydrated).toBe(true);
   });
 
   it('adds item to cart', () => {

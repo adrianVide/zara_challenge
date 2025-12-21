@@ -18,6 +18,7 @@ describe('Cart Page', () => {
       removeItem: mockRemoveItem,
       totalPrice: 0,
       itemCount: 0,
+      isHydrated: true,
     });
 
     render(<CartPage />);
@@ -33,6 +34,7 @@ describe('Cart Page', () => {
       removeItem: mockRemoveItem,
       totalPrice: mockCartItems.reduce((sum, item) => sum + item.price, 0),
       itemCount: mockCartItems.length,
+      isHydrated: true,
     });
 
     render(<CartPage />);
@@ -61,6 +63,7 @@ describe('Cart Page', () => {
       removeItem: mockRemoveItem,
       totalPrice,
       itemCount: mockCartItems.length,
+      isHydrated: true,
     });
 
     render(<CartPage />);
@@ -76,6 +79,7 @@ describe('Cart Page', () => {
       removeItem: mockRemoveItem,
       totalPrice: 999,
       itemCount: mockCartItems.length,
+      isHydrated: true,
     });
 
     render(<CartPage />);
@@ -92,6 +96,7 @@ describe('Cart Page', () => {
       removeItem: mockRemoveItem,
       totalPrice: 2000,
       itemCount: mockCartItems.length,
+      isHydrated: true,
     });
 
     render(<CartPage />);
@@ -106,6 +111,7 @@ describe('Cart Page', () => {
       removeItem: mockRemoveItem,
       totalPrice: 0,
       itemCount: 0,
+      isHydrated: true,
     });
 
     const { rerender } = render(<CartPage />);
@@ -116,6 +122,7 @@ describe('Cart Page', () => {
       removeItem: mockRemoveItem,
       totalPrice: 999,
       itemCount: mockCartItems.length,
+      isHydrated: true,
     });
 
     rerender(<CartPage />);
@@ -128,6 +135,7 @@ describe('Cart Page', () => {
       removeItem: mockRemoveItem,
       totalPrice: 999,
       itemCount: mockCartItems.length,
+      isHydrated: true,
     });
 
     render(<CartPage />);
@@ -141,6 +149,7 @@ describe('Cart Page', () => {
       removeItem: mockRemoveItem,
       totalPrice: 0,
       itemCount: 0,
+      isHydrated: true,
     });
 
     render(<CartPage />);
@@ -154,6 +163,7 @@ describe('Cart Page', () => {
       removeItem: mockRemoveItem,
       totalPrice: 999,
       itemCount: mockCartItems.length,
+      isHydrated: true,
     });
 
     render(<CartPage />);

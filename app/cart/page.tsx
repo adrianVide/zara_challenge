@@ -7,11 +7,22 @@ import { useCart } from '@/contexts/CartContext';
 import styles from './page.module.css';
 
 export default function CartPage() {
-  const { items, removeItem, totalPrice, itemCount } = useCart();
+  const { items, removeItem, totalPrice, itemCount, isHydrated } = useCart();
 
   useEffect(() => {
     document.title = `Shopping Cart (${itemCount}) | MBST Mobile Phones`;
   }, [itemCount]);
+
+  if (!isHydrated) {
+    return (
+      <div className={styles.container}>
+        <h1 className={styles.title}>CART</h1>
+        <div className={styles.emptyMessage} role="status" aria-live="polite">
+          Loading...
+        </div>
+      </div>
+    );
+  }
 
   if (itemCount === 0) {
     return (

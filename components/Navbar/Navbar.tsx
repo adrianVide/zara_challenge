@@ -7,7 +7,7 @@ import { LoadingBar } from '@/components/LoadingBar/LoadingBar';
 import styles from './Navbar.module.css';
 
 export function Navbar() {
-  const { itemCount } = useCart();
+  const { itemCount, isHydrated } = useCart();
 
   return (
     <header>
@@ -21,7 +21,11 @@ export function Navbar() {
           <Link
             href="/cart"
             className={styles.cartLink}
-            aria-label={`Shopping cart, ${itemCount} ${itemCount === 1 ? 'item' : 'items'}`}
+            aria-label={
+              isHydrated
+                ? `Shopping cart, ${itemCount} ${itemCount === 1 ? 'item' : 'items'}`
+                : 'Shopping cart'
+            }
           >
             <Image
               src="/bag-icon.svg"
@@ -31,7 +35,9 @@ export function Navbar() {
               height={18}
               aria-hidden="true"
             />
-            <span aria-hidden="true">{itemCount}</span>
+            <span aria-hidden="true" suppressHydrationWarning>
+              {isHydrated ? itemCount : 0}
+            </span>
           </Link>
         </div>
         <LoadingBar />
