@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import type { ProductDetail, CartItem } from '@/types/mobile';
-import Link from 'next/link';
 import { useLoading } from '@/contexts/LoadingContext';
 import { useCart } from '@/contexts/CartContext';
 import { BackButton } from '@/components/PhoneDetail/BackButton/BackButton';
@@ -16,6 +15,10 @@ import styles from './page.module.css';
 
 async function getMobilePhoneById(id: string): Promise<ProductDetail> {
   const response = await fetch(`/api/products/${id}`);
+
+  if (response.status === 404) {
+    throw new Error('NOT_FOUND');
+  }
 
   if (!response.ok) {
     throw new Error(`Failed to fetch phone: ${response.statusText}`);
@@ -30,7 +33,6 @@ export default function PhoneDetail() {
   const searchParams = useSearchParams();
   const id = params.id as string;
   const [phone, setPhone] = useState<ProductDetail | null>(null);
-  const [error, setError] = useState<string | null>(null);
   const { setIsLoading } = useLoading();
   const { addItem } = useCart();
 
@@ -47,12 +49,13 @@ export default function PhoneDetail() {
         setIsLoading(true);
         const data = await getMobilePhoneById(id);
         setPhone(data);
-        setError(null);
       } catch (err) {
-        setError(
-          err instanceof Error ? err.message : 'Failed to fetch phone details'
-        );
-        console.error('Error in PhoneDetail page:', err);
+        setIsLoading(false);
+        if (err instanceof Error && err.message === 'NOT_FOUND') {
+          router.replace('/404');
+          return;
+        }
+        throw err;
       } finally {
         setIsLoading(false);
       }
@@ -61,7 +64,7 @@ export default function PhoneDetail() {
     if (id) {
       fetchPhone();
     }
-  }, [id, setIsLoading]);
+  }, [id, setIsLoading, router]);
 
   useEffect(() => {
     if (phone) {
@@ -101,21 +104,8 @@ export default function PhoneDetail() {
     }
   }, [phone, searchParams]);
 
-  if (!phone && !error) {
+  if (!phone) {
     return null;
-  }
-
-  if (error || !phone) {
-    return (
-      <div className={styles.container}>
-        <div className={styles.error} role="alert" aria-live="assertive">
-          <strong>Error:</strong> {error || 'Phone not found'}
-        </div>
-        <Link href="/" className={styles.errorLink}>
-          Go back to home
-        </Link>
-      </div>
-    );
   }
 
   const selectedColor =
